@@ -2,1153 +2,792 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Puja Invitation Sender</title>
-  <meta name="description" content="Create and send personalized puja ceremony invitations via WhatsApp" />
-  <meta property="og:title" content="Puja Invitation Sender" />
-  <meta property="og:description" content="Personalized WhatsApp invitations for Mundan, Annaprashan, Namkaran & more" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title id="pageTitle">Puja Invitation</title>
+  <meta name="description" content="You are cordially invited" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Noto+Serif+Devanagari:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --gold: #C8922A;
-      --gold-light: #F0D080;
-      --gold-dark: #8B5E1A;
-      --gold-bg: rgba(200,146,42,0.10);
-      --gold-border: rgba(200,146,42,0.30);
-      --cream: #FDF8EE;
-      --cream-dark: #F5EDCF;
-      --maroon: #7B1F2E;
-      --maroon-light: #A8354A;
-      --text-dark: #2A1505;
-      --text-mid: #5C3A1E;
-      --text-muted: #9A7040;
-      --white: #FFFDF7;
-      --surface: #FFF9F0;
-      --border: rgba(200,146,42,0.25);
-      --shadow: 0 2px 20px rgba(139,94,26,0.10);
-      --radius: 6px;
-      --radius-lg: 10px;
+      --gold: #C8922A; --gold-light: #F0D080; --gold-dark: #8B5E1A;
+      --gold-bg: rgba(200,146,42,0.10); --gold-border: rgba(200,146,42,0.30);
+      --cream: #FDF8EE; --maroon: #7B1F2E; --maroon-light: #A8354A;
+      --text-dark: #2A1505; --text-mid: #5C3A1E; --text-muted: #9A7040;
+      --surface: #FFF9F0; --white: #FFFDF7; --border: rgba(200,146,42,0.25);
+      --shadow: 0 2px 20px rgba(139,94,26,0.10); --radius: 6px; --radius-lg: 10px;
     }
+    html, body { height: 100%; font-family: 'Cormorant Garamond', serif; color: var(--text-dark); overflow-x: hidden; background: var(--cream); }
 
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--cream);
-      min-height: 100vh;
-      font-family: 'Cormorant Garamond', serif;
-      color: var(--text-dark);
-      overflow-x: hidden;
-    }
-
-    /* ── Animated background ── */
-    .bg-layer {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 60% 50% at 10% 15%, rgba(200,146,42,0.07) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 60% at 90% 85%, rgba(123,31,46,0.06) 0%, transparent 70%),
-        radial-gradient(ellipse 80% 40% at 50% 100%, rgba(240,208,128,0.04) 0%, transparent 60%);
-    }
-
-    /* ── Floating petals ── */
-    #petals { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-    .petal {
-      position: absolute; opacity: 0;
-      animation: petalFall linear infinite;
-      user-select: none;
-    }
+    /* ── PETALS ── */
+    .petal { position: absolute; opacity: 0; user-select: none; animation: petalFall linear infinite; pointer-events: none; }
     @keyframes petalFall {
-      0%   { transform: translateY(-60px) rotate(0deg) scale(0.8); opacity: 0; }
-      8%   { opacity: 0.7; }
-      92%  { opacity: 0.4; }
-      100% { transform: translateY(110vh) rotate(540deg) scale(1); opacity: 0; }
-    }
-
-    /* ── Page layout ── */
-    .page-wrap {
-      position: relative; z-index: 1;
-      max-width: 560px;
-      margin: 0 auto;
-      padding: 1.5rem 1rem 5rem;
-    }
-
-    /* ── Header ── */
-    .page-header {
-      text-align: center;
-      padding: 1.5rem 0 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .page-header .om {
-      font-size: 2.4rem;
-      color: var(--maroon);
-      animation: omGlow 3s ease-in-out infinite alternate;
-      line-height: 1;
-      margin-bottom: 0.4rem;
+      0%   { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+      8%   { opacity: 0.8; }
+      92%  { opacity: 0.5; }
+      100% { transform: translateY(110vh) rotate(600deg); opacity: 0; }
     }
     @keyframes omGlow {
-      from { text-shadow: 0 0 8px rgba(200,146,42,0.3); }
-      to   { text-shadow: 0 0 20px rgba(200,146,42,0.7), 0 0 40px rgba(200,146,42,0.2); }
+      from { text-shadow: 0 0 10px rgba(200,146,42,0.4); }
+      to   { text-shadow: 0 0 30px rgba(200,146,42,0.9), 0 0 60px rgba(200,146,42,0.3); }
     }
-    .page-header .sanskrit {
-      font-family: 'Noto Serif Devanagari', serif;
-      font-size: 0.85rem;
-      color: var(--gold-dark);
-      letter-spacing: 0.1em;
-      margin-bottom: 0.8rem;
+    @keyframes slideUp   { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeScale { from { opacity:0; transform:scale(0.88); } to { opacity:1; transform:scale(1); } }
+    @keyframes shimmer   { 0% { background-position:-200% center; } 100% { background-position:200% center; } }
+    @keyframes diyaPulse {
+      from { filter:drop-shadow(0 0 6px rgba(200,146,42,0.5)); transform:scale(1); }
+      to   { filter:drop-shadow(0 0 22px rgba(200,146,42,0.95)) drop-shadow(0 0 40px rgba(200,146,42,0.4)); transform:scale(1.07); }
     }
-    .page-header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--maroon);
-      line-height: 1.2;
-    }
-    .page-header p {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-top: 0.3rem;
-      font-style: italic;
-    }
+    @keyframes bounce { 0%,100%{transform:translateX(0);} 50%{transform:translateX(6px);} }
+    @keyframes fadeIn  { from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;} }
 
-    /* ── Divider ── */
-    .divider {
-      display: flex; align-items: center; gap: 0.7rem;
-      margin: 0.5rem 0 1.2rem;
-    }
-    .divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
-    .divider-gem {
-      width: 7px; height: 7px;
-      background: var(--gold);
-      transform: rotate(45deg); flex-shrink: 0;
-    }
+    /* ══════════════════════════════════════
+       INVITATION VIEW
+    ══════════════════════════════════════ */
+    #invView { display:none; position:fixed; inset:0; background:var(--cream); overflow:hidden; z-index:100; }
+    #invView.active { display:flex; flex-direction:column; }
 
-    /* ── Step tabs ── */
-    .step-tabs {
-      display: flex;
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 4px;
-      margin-bottom: 1.5rem;
-      gap: 4px;
+    .inv-bg {
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(ellipse 70% 60% at 15% 10%, rgba(200,146,42,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 70% at 85% 90%, rgba(123,31,46,0.10) 0%, transparent 70%);
     }
-    .tab-btn {
-      flex: 1; padding: 0.6rem 0.5rem;
-      background: transparent; border: none;
-      border-radius: 7px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.95rem; font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer; transition: all 0.2s;
-      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
-    }
-    .tab-btn.active {
-      background: var(--maroon);
-      color: var(--cream);
-      box-shadow: 0 2px 10px rgba(123,31,46,0.25);
-    }
-    .tab-btn:not(.active):hover {
-      background: var(--gold-bg);
-      color: var(--text-dark);
-    }
-    .tab-num {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 18px; height: 18px; border-radius: 50%;
-      font-size: 0.7rem; font-weight: 700;
-      background: currentColor; color: inherit;
-    }
-    .tab-btn.active .tab-num { background: rgba(255,255,255,0.25); color: #fff; }
-    .tab-btn:not(.active) .tab-num { background: var(--gold-bg); color: var(--gold-dark); }
+    .inv-petals-wrap { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
 
-    /* ── Sections ── */
-    .section { display: none; animation: fadeIn 0.25s ease; }
-    .section.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .slides-wrap { position:relative; z-index:2; flex:1; display:flex; overflow:hidden; }
+    .slide {
+      position:absolute; inset:0; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; padding:1.5rem 1.2rem;
+      transition: transform 0.65s cubic-bezier(0.77,0,0.18,1), opacity 0.65s ease;
+    }
+    .slide.s1 { transform:translateX(0); opacity:1; }
+    .slide.s2 { transform:translateX(100%); opacity:0; }
+    .slide.s1.gone { transform:translateX(-100%); opacity:0; }
+    .slide.s2.here { transform:translateX(0); opacity:1; }
 
-    /* ── Card ── */
-    .card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.4rem 1.4rem 1.2rem;
-      margin-bottom: 1rem;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-    .card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    }
-    .card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold-dark);
-      margin-bottom: 1rem;
-      padding-bottom: 0.6rem;
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; gap: 0.5rem;
-    }
-    .card-title .icon { font-size: 1rem; }
+    /* SLIDE 1 */
+    .s1-inner { text-align:center; max-width:400px; width:100%; }
+    .s1-diya  { font-size:3rem; display:block; margin-bottom:0.4rem; line-height:1; animation:diyaPulse 2s ease-in-out infinite alternate; }
+    .s1-om    { font-size:3.5rem; color:var(--maroon); line-height:1; margin-bottom:0.35rem; opacity:0; animation: omGlow 3s ease-in-out 0.4s infinite alternate, slideUp 0.7s 0.2s ease forwards; }
+    .s1-sanskrit { font-family:'Noto Serif Devanagari',serif; font-size:0.88rem; color:var(--gold-dark); letter-spacing:0.12em; margin-bottom:1.6rem; opacity:0; animation:slideDown 0.7s 0.5s ease forwards; }
 
-    /* ── Form fields ── */
-    .field { margin-bottom: 0.9rem; }
-    .field:last-child { margin-bottom: 0; }
-    .field label {
-      display: block;
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 0.35rem;
-      font-family: 'Cormorant Garamond', serif;
+    .s1-card {
+      background:var(--white); border:1.5px solid rgba(200,146,42,0.4);
+      border-radius:14px; padding:1.8rem 1.6rem;
+      box-shadow:0 8px 40px rgba(139,94,26,0.18), 0 0 0 6px rgba(200,146,42,0.06);
+      position:relative; overflow:hidden;
+      opacity:0; animation:fadeScale 0.8s 0.55s ease forwards;
     }
-    .field input,
-    .field select,
-    .field textarea {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 0.55rem 0.8rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      color: var(--text-dark);
-      transition: border-color 0.2s, box-shadow 0.2s;
-      appearance: none;
+    .s1-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+      background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent);
+      background-size:200% auto; animation:shimmer 3s linear infinite;
     }
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(200,146,42,0.12);
-    }
-    .field select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238B5E1A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.8rem center;
-      padding-right: 2rem;
-      cursor: pointer;
-    }
-    .field textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
-    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .s1-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1.5px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+    .corner-gem { position:absolute; font-size:0.95rem; color:var(--gold); opacity:0.45; }
+    .corner-gem.tl{top:8px;left:10px;} .corner-gem.tr{top:8px;right:10px;} .corner-gem.bl{bottom:8px;left:10px;} .corner-gem.br{bottom:8px;right:10px;}
 
-    /* ── Buttons ── */
-    .btn-save {
-      width: 100%;
-      background: var(--maroon);
-      color: var(--cream);
-      border: none;
-      border-radius: var(--radius);
-      padding: 0.8rem;
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      letter-spacing: 0.04em;
-      margin-top: 0.5rem;
-      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
-      box-shadow: 0 3px 12px rgba(123,31,46,0.25);
-    }
-    .btn-save:hover { background: var(--maroon-light); transform: translateY(-1px); box-shadow: 0 5px 16px rgba(123,31,46,0.3); }
-    .btn-save:active { transform: translateY(0); }
+    .s1-invite-lbl { font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.5rem; }
+    .s1-guest  { font-family:'Playfair Display',serif; font-size:1.75rem; font-weight:700; color:var(--maroon); line-height:1.15; margin-bottom:0.3rem; }
+    .s1-guest-sub { font-style:italic; font-size:0.9rem; color:var(--text-muted); margin-bottom:1.3rem; }
 
-    .btn-sm {
-      padding: 0.4rem 0.8rem;
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.88rem;
-      color: var(--text-mid);
-      cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
-    }
-    .btn-sm:hover { background: var(--gold-bg); border-color: var(--gold); color: var(--gold-dark); }
+    .s1-div { display:flex; align-items:center; gap:0.6rem; margin:0.9rem 0; }
+    .s1-div-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+    .s1-div-gem  { width:6px; height:6px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; }
 
-    /* ── Event summary banner ── */
-    .event-banner {
-      background: linear-gradient(135deg, rgba(200,146,42,0.08), rgba(123,31,46,0.05));
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.1rem 1.2rem;
-      margin-bottom: 1.2rem;
-      display: none;
-    }
-    .event-banner.visible { display: block; animation: fadeIn 0.3s ease; }
-    .eb-ceremony {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--maroon);
-      margin-bottom: 0.5rem;
-    }
-    .eb-row {
-      font-size: 0.9rem;
-      color: var(--text-mid);
-      margin: 0.2rem 0;
-      display: flex; align-items: baseline; gap: 0.4rem;
-    }
-    .eb-row span { color: var(--text-dark); font-weight: 600; }
-    .eb-row .eico { font-size: 0.85rem; flex-shrink: 0; }
-    .eb-edit {
-      margin-top: 0.8rem;
-      font-size: 0.8rem;
-      color: var(--gold-dark);
-      cursor: pointer;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      background: none; border: none;
-      font-family: inherit;
-    }
-    .eb-edit:hover { color: var(--maroon); }
+    .s1-cer-lbl  { font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.3rem; }
+    .s1-cer-name { font-family:'Playfair Display',serif; font-size:1.45rem; font-weight:700; color:var(--maroon); line-height:1.2; margin-bottom:0.2rem; }
+    .s1-cer-sub  { font-style:italic; color:var(--text-muted); font-size:0.88rem; margin-bottom:1.1rem; }
 
-    /* ── Contacts / search row ── */
-    .search-row {
-      display: flex; gap: 0.6rem;
-      margin-bottom: 0.8rem;
-    }
-    .search-row input { flex: 1; }
-    .btn-contacts {
-      display: flex; align-items: center; gap: 0.4rem;
-      padding: 0.5rem 0.9rem;
-      background: var(--maroon);
-      color: var(--cream);
-      border: none;
-      border-radius: var(--radius);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s;
-    }
-    .btn-contacts:hover { background: var(--maroon-light); }
+    .s1-child-box { background:linear-gradient(135deg,rgba(200,146,42,0.08),rgba(123,31,46,0.05)); border:1px solid rgba(200,146,42,0.3); border-radius:6px; padding:0.8rem 1rem; margin-bottom:1.1rem; }
+    .s1-child-lbl  { font-size:0.66rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.2rem; }
+    .s1-child-name { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--maroon); line-height:1.1; }
+    .s1-child-dev  { font-family:'Noto Serif Devanagari',serif; font-size:0.92rem; color:var(--gold-dark); margin-top:0.15rem; }
 
-    /* ── Invitee list ── */
-    .invitee-list {
-      display: flex; flex-direction: column; gap: 0.5rem;
-      max-height: 400px; overflow-y: auto;
-      padding-right: 2px;
+    .s1-next-btn {
+      display:flex; align-items:center; justify-content:center; gap:0.5rem;
+      width:100%; padding:0.8rem;
+      background:var(--maroon); color:var(--cream);
+      border:none; border-radius:7px;
+      font-family:'Playfair Display',serif; font-size:1rem; font-weight:700;
+      cursor:pointer; letter-spacing:0.05em;
+      box-shadow:0 4px 14px rgba(123,31,46,0.3);
+      transition:background 0.2s, transform 0.15s;
     }
-    .invitee-list::-webkit-scrollbar { width: 4px; }
-    .invitee-list::-webkit-scrollbar-track { background: transparent; }
-    .invitee-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .s1-next-btn:hover { background:var(--maroon-light); transform:translateY(-1px); }
+    .s1-next-arr { display:inline-block; animation:bounce 1.2s ease-in-out infinite; }
 
-    .empty-msg {
-      text-align: center; padding: 2rem 1rem;
-      color: var(--text-muted); font-size: 0.95rem; font-style: italic;
-    }
-    .empty-msg .em-icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+    /* SLIDE 2 */
+    .s2-inner { max-width:420px; width:100%; max-height:100vh; overflow-y:auto; padding:0.8rem 0 4rem; }
+    .s2-inner::-webkit-scrollbar { display:none; }
 
-    .inv-row {
-      display: flex; align-items: center; gap: 0.75rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 0.65rem 0.8rem;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-    .inv-row:hover { border-color: var(--gold); box-shadow: 0 2px 8px rgba(200,146,42,0.1); }
-    .avatar {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold-bg), rgba(123,31,46,0.08));
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-size: 0.85rem; font-weight: 700;
-      color: var(--maroon); flex-shrink: 0;
-    }
-    .inv-info { flex: 1; min-width: 0; }
-    .inv-name {
-      font-size: 0.98rem; font-weight: 600;
-      color: var(--text-dark);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .inv-phone { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.1rem; }
-    .inv-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
-    .btn-wa {
-      display: flex; align-items: center; gap: 0.3rem;
-      padding: 0.35rem 0.75rem;
-      background: #25D366; color: #fff;
-      border: none; border-radius: var(--radius);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.85rem; font-weight: 600;
-      cursor: pointer; text-decoration: none;
-      transition: opacity 0.15s, transform 0.1s;
-    }
-    .btn-wa:hover { opacity: 0.88; transform: translateY(-1px); }
-    .btn-wa.sent { background: #128C7E; }
-    .btn-rm {
-      padding: 0.35rem 0.55rem;
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text-muted); cursor: pointer;
-      font-size: 0.85rem; transition: all 0.15s;
-    }
-    .btn-rm:hover { background: #fef2f2; border-color: #fca5a5; color: #dc2626; }
+    .s2-header { text-align:center; margin-bottom:1rem; }
+    .s2-header-title { font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--maroon); }
+    .s2-header-sub { font-style:italic; font-size:0.82rem; color:var(--text-muted); margin-top:0.15rem; }
 
-    .sent-pill {
-      display: inline-flex; align-items: center; gap: 0.2rem;
-      font-size: 0.7rem; font-weight: 600;
-      background: #dcfce7; color: #15803d;
-      padding: 0.1rem 0.45rem; border-radius: 100px;
-      margin-left: 0.35rem;
-      vertical-align: middle;
+    .detail-card {
+      background:var(--white); border:1px solid rgba(200,146,42,0.28);
+      border-radius:10px; padding:1.1rem 1.2rem; margin-bottom:0.75rem;
+      box-shadow:0 2px 12px rgba(139,94,26,0.07);
+      position:relative; overflow:hidden;
     }
+    .detail-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:linear-gradient(180deg,var(--gold-light),var(--gold),var(--gold-dark)); border-radius:3px 0 0 3px; }
+    .dc-icon  { font-size:1.5rem; margin-bottom:0.3rem; display:block; }
+    .dc-label { font-size:0.66rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.25rem; }
+    .dc-value { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; color:var(--maroon); line-height:1.3; }
+    .dc-sub   { font-size:0.82rem; color:var(--text-mid); margin-top:0.18rem; }
 
-    /* ── Manual add row ── */
-    .manual-row {
-      display: flex; gap: 0.5rem; align-items: flex-end;
-      margin-top: 0.9rem; padding-top: 0.9rem;
-      border-top: 1px dashed var(--border);
-    }
-    .manual-row .f-name { flex: 0 0 38%; }
-    .manual-row .f-phone { flex: 1; }
-    .manual-row input { margin-bottom: 0; }
+    .detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-bottom:0.75rem; }
+    .detail-grid .detail-card { margin-bottom:0; }
 
-    /* ── Send all bar ── */
-    .send-bar {
-      display: none;
-      align-items: center; justify-content: space-between;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 0.8rem 1.1rem;
-      margin-top: 0.9rem;
-      box-shadow: var(--shadow);
-    }
-    .send-bar.visible { display: flex; }
-    .send-count { font-size: 0.95rem; color: var(--text-mid); }
-    .send-count strong { color: var(--maroon); font-size: 1.1rem; }
-    .btn-send-all {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.55rem 1.2rem;
-      background: #128C7E; color: #fff;
-      border: none; border-radius: var(--radius);
-      font-family: 'Playfair Display', serif;
-      font-size: 0.95rem; font-weight: 700;
-      cursor: pointer; transition: opacity 0.15s;
-    }
-    .btn-send-all:hover { opacity: 0.88; }
+    .fn-row { display:flex; flex-wrap:wrap; gap:0.4rem; justify-content:center; margin-bottom:0.75rem; }
+    .fn-pill { background:var(--maroon); color:#F5E8C0; font-size:0.8rem; padding:0.25rem 0.8rem; border-radius:100px; font-style:italic; }
 
-    /* ── Notice ── */
-    .notice {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-top: 0.6rem;
-      padding: 0.6rem 0.9rem;
-      background: rgba(200,146,42,0.05);
-      border-left: 2px solid var(--gold);
-      border-radius: 0 var(--radius) var(--radius) 0;
-      line-height: 1.5;
-    }
+    .hosts-card { text-align:center; background:linear-gradient(135deg,rgba(200,146,42,0.07),rgba(123,31,46,0.05)); border:1px solid rgba(200,146,42,0.28); border-radius:10px; padding:0.9rem 1.1rem; margin-bottom:0.75rem; }
+    .hosts-lbl  { font-size:0.66rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.22rem; }
+    .hosts-name { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--maroon); }
 
-    /* ── Preview card (collapsible) ── */
-    .preview-toggle {
-      width: 100%;
-      text-align: center;
-      background: none; border: none;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.88rem;
-      color: var(--gold-dark);
-      cursor: pointer;
-      padding: 0.6rem;
-      margin-top: 0.5rem;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-    .preview-toggle:hover { color: var(--maroon); }
-    .preview-wrap {
-      display: none;
-      margin-top: 1rem;
-    }
-    .preview-wrap.open { display: block; animation: fadeIn 0.2s ease; }
-    .preview-message {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.2rem;
-      font-size: 0.92rem;
-      line-height: 1.75;
-      color: var(--text-mid);
-      white-space: pre-wrap;
-      word-break: break-word;
-      font-style: italic;
-    }
-    .preview-note {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      text-align: center;
-      margin-top: 0.5rem;
-    }
+    .blessing-box { text-align:center; font-style:italic; font-size:0.88rem; color:var(--text-muted); line-height:1.75; padding:0.8rem 0.5rem; }
+    .blessing-box .diya { font-size:1.3rem; display:block; margin-bottom:0.35rem; }
 
-    /* ── Invitation card preview (the shareable HTML) ── */
-    .inv-card-outer {
-      background: linear-gradient(160deg, #fffdf5 0%, #fdf4e0 60%, #faf0d5 100%);
-      border: 2px solid var(--gold);
-      border-radius: 4px;
-      position: relative;
-      box-shadow:
-        0 0 0 5px var(--cream),
-        0 0 0 7px rgba(200,146,42,0.4),
-        0 4px 40px rgba(139,94,26,0.15);
-      margin-top: 1.5rem;
-    }
-    .corner-deco {
-      position: absolute; width: 44px; height: 44px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M2 2 Q24 2 46 46' stroke='%23C8922A' stroke-width='1.5' fill='none'/%3E%3Cpath d='M2 2 Q2 24 46 46' stroke='%23C8922A' stroke-width='1.5' fill='none'/%3E%3Ccircle cx='2' cy='2' r='3' fill='%23C8922A'/%3E%3Ccircle cx='24' cy='5' r='2' fill='%23F0D080'/%3E%3Ccircle cx='5' cy='24' r='2' fill='%23F0D080'/%3E%3C/svg%3E");
-      background-size: contain; background-repeat: no-repeat;
-    }
-    .corner-deco.tl { top:-4px; left:-4px; }
-    .corner-deco.tr { top:-4px; right:-4px; transform:scaleX(-1); }
-    .corner-deco.bl { bottom:-4px; left:-4px; transform:scaleY(-1); }
-    .corner-deco.br { bottom:-4px; right:-4px; transform:scale(-1); }
-    .inv-card-inner {
-      padding: 2rem 1.8rem 1.8rem;
-      text-align: center;
-    }
-    .ic-om { font-size: 2.2rem; color: var(--maroon); animation: omGlow 3s ease-in-out infinite alternate; margin-bottom: 0.3rem; }
-    .ic-sanskrit { font-family: 'Noto Serif Devanagari', serif; font-size: 0.82rem; color: var(--gold-dark); letter-spacing: 0.08em; margin-bottom: 0.9rem; }
-    .ic-dv { display:flex; align-items:center; gap:0.6rem; margin:0.7rem 0; }
-    .ic-dv-line { flex:1; height:1px; background: linear-gradient(90deg,transparent,var(--gold),transparent); }
-    .ic-dv-gem { width:6px; height:6px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; }
-    .ic-title { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--maroon); line-height:1.2; }
-    .ic-subtitle { font-style:italic; color:var(--gold-dark); font-size:0.9rem; margin-top:0.2rem; }
-    .ic-prose { font-size:0.9rem; color:var(--text-mid); margin:0.9rem 0; line-height:1.7; }
-    .ic-prose strong { color:var(--maroon); }
-    .ic-name-box {
-      background:rgba(200,146,42,0.07);
-      border:1px solid rgba(200,146,42,0.3);
-      border-radius:2px; padding:1rem 1.2rem;
-      margin:0.8rem 0;
-    }
-    .ic-name-label { font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.3rem; }
-    .ic-name { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--maroon); line-height:1.1; }
-    .ic-name-dev { font-family:'Noto Serif Devanagari',serif; font-size:1rem; color:var(--gold-dark); margin-top:0.2rem; }
-    .ic-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin:1rem 0; }
-    .ic-info-cell {
-      background:rgba(255,253,245,0.8);
-      border:1px solid rgba(200,146,42,0.28);
-      border-radius:2px; padding:0.7rem 0.8rem;
-    }
-    .ic-info-cell.full { grid-column:1/-1; }
-    .ic-info-icon { font-size:1.2rem; margin-bottom:0.2rem; }
-    .ic-info-label { font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.2rem; }
-    .ic-info-val { font-family:'Playfair Display',serif; font-size:0.92rem; font-weight:700; color:var(--maroon); line-height:1.2; }
-    .ic-info-sub { font-size:0.75rem; color:var(--text-mid); margin-top:0.1rem; }
-    .ic-hosts-label { font-size:0.7rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-dark); margin-top:0.9rem; }
-    .ic-hosts-name { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:var(--maroon); margin-top:0.2rem; }
-    .ic-blessing { font-style:italic; font-size:0.82rem; color:var(--gold-dark); margin-top:1rem; padding-top:0.9rem; border-top:1px solid rgba(200,146,42,0.2); line-height:1.6; }
-    .fn-badges { display:flex; flex-wrap:wrap; justify-content:center; gap:0.4rem; margin:0.8rem 0; }
-    .fn-badge { background:var(--maroon); color:#F5E8C0; font-size:0.8rem; padding:0.25rem 0.8rem; border-radius:100px; font-style:italic; }
+    .s2-back-btn { display:flex; align-items:center; justify-content:center; gap:0.4rem; width:100%; padding:0.65rem; background:transparent; color:var(--gold-dark); border:1px solid var(--gold-border); border-radius:7px; font-family:'Cormorant Garamond',serif; font-size:0.9rem; cursor:pointer; margin-top:0.5rem; transition:background 0.15s; }
+    .s2-back-btn:hover { background:var(--gold-bg); }
 
-    /* ── Footer ── */
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      font-style: italic;
-    }
+    .slide-in { opacity:0; transform:translateX(40px); transition:opacity 0.5s ease, transform 0.5s ease; }
+    .slide-in.visible { opacity:1; transform:translateX(0); }
 
-    @media (max-width: 440px) {
-      .row2 { grid-template-columns: 1fr; }
-      .manual-row { flex-wrap: wrap; }
-      .manual-row .f-name, .manual-row .f-phone { flex: 0 0 100%; }
-      .ic-info-grid { grid-template-columns: 1fr; }
-      .ic-info-cell.full { grid-column: 1; }
+    .dots { position:fixed; bottom:1.2rem; left:50%; transform:translateX(-50%); display:flex; gap:0.5rem; z-index:10; }
+    .dot  { width:8px; height:8px; border-radius:50%; background:var(--gold-border); transition:background 0.3s, transform 0.3s; cursor:pointer; }
+    .dot.active { background:var(--maroon); transform:scale(1.35); }
+
+    /* ══════════════════════════════════════
+       SENDER VIEW
+    ══════════════════════════════════════ */
+    #senderView { display:block; }
+    .bg-layer { position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 60% 50% at 10% 15%,rgba(200,146,42,0.07) 0%,transparent 70%),radial-gradient(ellipse 50% 60% at 90% 85%,rgba(123,31,46,0.06) 0%,transparent 70%); }
+    .sender-petals { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+
+    .page-wrap { position:relative; z-index:1; max-width:560px; margin:0 auto; padding:1.5rem 1rem 5rem; }
+    .page-header { text-align:center; padding:1.5rem 0 1rem; margin-bottom:1.5rem; }
+    .page-header .om { font-size:2.4rem; color:var(--maroon); animation:omGlow 3s ease-in-out infinite alternate; line-height:1; margin-bottom:0.4rem; }
+    .page-header .sanskrit { font-family:'Noto Serif Devanagari',serif; font-size:0.85rem; color:var(--gold-dark); letter-spacing:0.1em; margin-bottom:0.8rem; }
+    .page-header h1 { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--maroon); line-height:1.2; }
+    .page-header p  { font-size:0.95rem; color:var(--text-muted); margin-top:0.3rem; font-style:italic; }
+
+    .divider { display:flex; align-items:center; gap:0.7rem; margin:0.5rem 0 1.2rem; }
+    .divider-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+    .divider-gem  { width:7px; height:7px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; }
+
+    .step-tabs { display:flex; background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius-lg); padding:4px; margin-bottom:1.5rem; gap:4px; }
+    .tab-btn { flex:1; padding:0.6rem 0.5rem; background:transparent; border:none; border-radius:7px; font-family:'Cormorant Garamond',serif; font-size:0.95rem; font-weight:600; color:var(--text-muted); cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:0.4rem; }
+    .tab-btn.active { background:var(--maroon); color:var(--cream); box-shadow:0 2px 10px rgba(123,31,46,0.25); }
+    .tab-btn:not(.active):hover { background:var(--gold-bg); color:var(--text-dark); }
+    .tab-num { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; font-size:0.7rem; font-weight:700; }
+    .tab-btn.active .tab-num { background:rgba(255,255,255,0.25); color:#fff; }
+    .tab-btn:not(.active) .tab-num { background:var(--gold-bg); color:var(--gold-dark); }
+
+    .section { display:none; animation:fadeIn 0.25s ease; }
+    .section.active { display:block; }
+
+    .card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.4rem 1.4rem 1.2rem; margin-bottom:1rem; box-shadow:var(--shadow); position:relative; overflow:hidden; }
+    .card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+    .card-title { font-family:'Playfair Display',serif; font-size:0.8rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:1rem; padding-bottom:0.6rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:0.5rem; }
+
+    .field { margin-bottom:0.9rem; }
+    .field:last-child { margin-bottom:0; }
+    .field label { display:block; font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.35rem; font-family:'Cormorant Garamond',serif; }
+    .field input, .field select, .field textarea { width:100%; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:0.55rem 0.8rem; font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--text-dark); transition:border-color 0.2s, box-shadow 0.2s; appearance:none; }
+    .field input:focus, .field select:focus, .field textarea:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(200,146,42,0.12); }
+    .field select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238B5E1A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 0.8rem center; padding-right:2rem; cursor:pointer; }
+    .field textarea { resize:vertical; min-height:70px; line-height:1.5; }
+    .row2 { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; }
+
+    .btn-save { width:100%; background:var(--maroon); color:var(--cream); border:none; border-radius:var(--radius); padding:0.8rem; font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; cursor:pointer; letter-spacing:0.04em; margin-top:0.5rem; transition:background 0.2s, transform 0.1s, box-shadow 0.2s; box-shadow:0 3px 12px rgba(123,31,46,0.25); }
+    .btn-save:hover { background:var(--maroon-light); transform:translateY(-1px); }
+    .btn-sm { padding:0.4rem 0.8rem; background:transparent; border:1px solid var(--border); border-radius:var(--radius); font-family:'Cormorant Garamond',serif; font-size:0.88rem; color:var(--text-mid); cursor:pointer; transition:background 0.15s; }
+    .btn-sm:hover { background:var(--gold-bg); border-color:var(--gold); }
+
+    .preview-link-btn { display:flex; align-items:center; justify-content:center; gap:0.5rem; width:100%; padding:0.65rem; background:transparent; color:var(--maroon); border:1.5px solid var(--gold-border); border-radius:var(--radius); font-family:'Cormorant Garamond',serif; font-size:0.95rem; cursor:pointer; margin-top:0.6rem; transition:background 0.15s; }
+    .preview-link-btn:hover { background:var(--gold-bg); }
+
+    .event-banner { background:linear-gradient(135deg,rgba(200,146,42,0.08),rgba(123,31,46,0.05)); border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.1rem 1.2rem; margin-bottom:1.2rem; display:none; }
+    .event-banner.visible { display:block; animation:fadeIn 0.3s ease; }
+    .eb-ceremony { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--maroon); margin-bottom:0.5rem; }
+    .eb-row { font-size:0.9rem; color:var(--text-mid); margin:0.2rem 0; display:flex; align-items:baseline; gap:0.4rem; }
+    .eb-row span { color:var(--text-dark); font-weight:600; }
+    .eb-edit { margin-top:0.8rem; font-size:0.8rem; color:var(--gold-dark); cursor:pointer; text-decoration:underline; text-underline-offset:2px; background:none; border:none; font-family:inherit; }
+
+    .search-row { display:flex; gap:0.6rem; margin-bottom:0.8rem; }
+    .search-row .field { margin:0; flex:1; }
+    .btn-contacts { display:flex; align-items:center; gap:0.4rem; padding:0.5rem 0.9rem; background:var(--maroon); color:var(--cream); border:none; border-radius:var(--radius); font-family:'Cormorant Garamond',serif; font-size:0.88rem; font-weight:600; cursor:pointer; white-space:nowrap; transition:background 0.15s; }
+    .btn-contacts:hover { background:var(--maroon-light); }
+
+    .invitee-list { display:flex; flex-direction:column; gap:0.5rem; max-height:400px; overflow-y:auto; padding-right:2px; }
+    .invitee-list::-webkit-scrollbar { width:4px; }
+    .invitee-list::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+
+    .empty-msg { text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.95rem; font-style:italic; }
+    .empty-msg .em-icon { font-size:2rem; margin-bottom:0.5rem; display:block; }
+
+    .inv-row { display:flex; align-items:center; gap:0.75rem; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:0.65rem 0.8rem; transition:border-color 0.15s, box-shadow 0.15s; }
+    .inv-row:hover { border-color:var(--gold); box-shadow:0 2px 8px rgba(200,146,42,0.1); }
+    .avatar { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--gold-bg),rgba(123,31,46,0.08)); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:0.85rem; font-weight:700; color:var(--maroon); flex-shrink:0; }
+    .inv-info { flex:1; min-width:0; }
+    .inv-name  { font-size:0.98rem; font-weight:600; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .inv-phone { font-size:0.8rem; color:var(--text-muted); margin-top:0.1rem; }
+    .inv-actions { display:flex; gap:0.4rem; flex-shrink:0; }
+    .btn-wa { display:flex; align-items:center; gap:0.3rem; padding:0.35rem 0.65rem; background:#25D366; color:#fff; border:none; border-radius:var(--radius); font-family:'Cormorant Garamond',serif; font-size:0.85rem; font-weight:600; cursor:pointer; transition:opacity 0.15s; }
+    .btn-wa:hover { opacity:0.88; }
+    .btn-wa.sent { background:#128C7E; }
+    .btn-rm { padding:0.35rem 0.55rem; background:transparent; border:1px solid var(--border); border-radius:var(--radius); color:var(--text-muted); cursor:pointer; font-size:0.85rem; transition:all 0.15s; }
+    .btn-rm:hover { background:#fef2f2; border-color:#fca5a5; color:#dc2626; }
+    .sent-pill { display:inline-flex; align-items:center; gap:0.2rem; font-size:0.7rem; font-weight:600; background:#dcfce7; color:#15803d; padding:0.1rem 0.45rem; border-radius:100px; margin-left:0.35rem; vertical-align:middle; }
+
+    .manual-row { display:flex; gap:0.5rem; align-items:flex-end; margin-top:0.9rem; padding-top:0.9rem; border-top:1px dashed var(--border); }
+    .manual-row .f-name  { flex:0 0 38%; }
+    .manual-row .f-phone { flex:1; }
+    .manual-row input { margin-bottom:0; }
+
+    .send-bar { display:none; align-items:center; justify-content:space-between; background:var(--white); border:1px solid var(--border); border-radius:var(--radius-lg); padding:0.8rem 1.1rem; margin-top:0.9rem; box-shadow:var(--shadow); }
+    .send-bar.visible { display:flex; }
+    .send-count { font-size:0.95rem; color:var(--text-mid); }
+    .send-count strong { color:var(--maroon); font-size:1.1rem; }
+    .btn-send-all { display:flex; align-items:center; gap:0.5rem; padding:0.55rem 1.2rem; background:#128C7E; color:#fff; border:none; border-radius:var(--radius); font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:700; cursor:pointer; transition:opacity 0.15s; }
+    .btn-send-all:hover { opacity:0.88; }
+
+    .notice { font-size:0.82rem; color:var(--text-muted); margin-top:0.6rem; padding:0.6rem 0.9rem; background:rgba(200,146,42,0.05); border-left:2px solid var(--gold); border-radius:0 var(--radius) var(--radius) 0; line-height:1.5; }
+
+    footer { text-align:center; padding:2rem 1rem; font-size:0.78rem; color:var(--text-muted); font-style:italic; }
+
+    @media (max-width:440px) {
+      .row2 { grid-template-columns:1fr; }
+      .manual-row { flex-wrap:wrap; }
+      .manual-row .f-name, .manual-row .f-phone { flex:0 0 100%; }
+      .detail-grid { grid-template-columns:1fr; }
     }
   </style>
 </head>
 <body>
 
-<div class="bg-layer" aria-hidden="true"></div>
-<div id="petals" aria-hidden="true"></div>
+<!-- ════════════ INVITATION VIEW ════════════ -->
+<div id="invView">
+  <div class="inv-bg" aria-hidden="true"></div>
+  <div class="inv-petals-wrap" id="invPetals" aria-hidden="true"></div>
 
-<div class="page-wrap">
+  <div class="slides-wrap">
+    <!-- SLIDE 1 -->
+    <div class="slide s1" id="slide1">
+      <div class="s1-inner">
+        <span class="s1-diya" aria-hidden="true">🪔</span>
+        <div class="s1-om" aria-label="Om">🕉</div>
+        <div class="s1-sanskrit">ॐ श्री गणेशाय नमः</div>
+        <div class="s1-card">
+          <span class="corner-gem tl" aria-hidden="true">✦</span>
+          <span class="corner-gem tr" aria-hidden="true">✦</span>
+          <span class="corner-gem bl" aria-hidden="true">✦</span>
+          <span class="corner-gem br" aria-hidden="true">✦</span>
+          <div class="s1-invite-lbl">With heartfelt joy, we invite</div>
+          <div class="s1-guest" id="guestName">Dear Guest</div>
+          <div class="s1-guest-sub">to bless this auspicious occasion</div>
+          <div class="s1-div"><div class="s1-div-line"></div><div class="s1-div-gem"></div><div class="s1-div-line"></div></div>
+          <div class="s1-cer-lbl">For the sacred</div>
+          <div class="s1-cer-name" id="ceremonyName">Mundan Ceremony</div>
+          <div class="s1-cer-sub"  id="ceremonySub">First Sacred Hair Offering</div>
+          <div class="s1-child-box">
+            <div class="s1-child-lbl">Of our beloved child</div>
+            <div class="s1-child-name" id="childNameS1">—</div>
+            <div class="s1-child-dev"  id="childDevS1" style="display:none"></div>
+          </div>
+          <button class="s1-next-btn" onclick="goSlide2()">
+            View Details &nbsp;<span class="s1-next-arr" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
-  <!-- Header -->
-  <header class="page-header">
-    <div class="om" role="img" aria-label="Om">🕉</div>
-    <div class="sanskrit">ॐ श्री गणेशाय नमः</div>
-    <h1>Puja Invitation Sender</h1>
-    <p>Set up once · Send to everyone · Via WhatsApp</p>
-  </header>
+    <!-- SLIDE 2 -->
+    <div class="slide s2" id="slide2">
+      <div class="s2-inner">
+        <div class="s2-header">
+          <div class="s2-header-title" id="s2Title">Event Details</div>
+          <div class="s2-header-sub"   id="s2Sub">Everything you need to know</div>
+        </div>
 
-  <div class="divider"><div class="divider-line"></div><div class="divider-gem"></div><div class="divider-line"></div></div>
+        <div class="detail-grid">
+          <div class="detail-card slide-in" style="transition-delay:0s">
+            <span class="dc-icon">📅</span>
+            <div class="dc-label">Date</div>
+            <div class="dc-value" id="detailDate">—</div>
+          </div>
+          <div class="detail-card slide-in" style="transition-delay:0.08s">
+            <span class="dc-icon">🕐</span>
+            <div class="dc-label">Time</div>
+            <div class="dc-value" id="detailTime">—</div>
+            <div class="dc-sub" id="detailMuhurt" style="display:none"></div>
+          </div>
+        </div>
 
-  <!-- Step tabs -->
-  <div class="step-tabs" role="tablist">
-    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="setupSection" onclick="switchTab('setup')">
-      <span class="tab-num">1</span> Event Setup
-    </button>
-    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="sendSection" id="sendTabBtn" onclick="switchTab('send')">
-      <span class="tab-num">2</span> Send Invites
-    </button>
+        <div class="detail-card slide-in" style="transition-delay:0.15s">
+          <span class="dc-icon">📍</span>
+          <div class="dc-label">Venue</div>
+          <div class="dc-value" id="detailVenue">—</div>
+          <div class="dc-sub"   id="detailAddress" style="display:none"></div>
+        </div>
+
+        <div class="fn-row slide-in" id="fnRow" style="transition-delay:0.22s"></div>
+
+        <div class="hosts-card slide-in" style="transition-delay:0.28s">
+          <div class="hosts-lbl">Hosted with Love by</div>
+          <div class="hosts-name" id="detailHosts">The Family</div>
+        </div>
+
+        <div class="detail-card slide-in" id="extraCard" style="display:none;transition-delay:0.33s">
+          <span class="dc-icon">📝</span>
+          <div class="dc-label">Note</div>
+          <div class="dc-value" id="detailExtra" style="font-family:'Cormorant Garamond',serif;font-size:0.98rem;font-weight:400"></div>
+        </div>
+
+        <div class="blessing-box">
+          <span class="diya" aria-hidden="true">🌸</span>
+          "May the blessings of Lord Ganesha shower upon the little one.<br>
+          Your presence will make this day truly divine."
+        </div>
+
+        <button class="s2-back-btn" onclick="goSlide1()">← Back</button>
+      </div>
+    </div>
   </div>
 
-  <!-- ══════════ TAB 1: SETUP ══════════ -->
-  <section class="section active" id="setupSection" role="tabpanel">
-
-    <div class="card">
-      <div class="card-title"><span class="icon">✨</span> Ceremony Details</div>
-      <div class="field">
-        <label>Ceremony Type</label>
-        <select id="s_cer">
-          <option value="mundan">Mundan — First Sacred Hair Offering</option>
-          <option value="annaprashan">Annaprashan — First Rice Feeding</option>
-          <option value="namkaran">Namkaran — Naming Ceremony</option>
-          <option value="upanayana">Upanayana — Sacred Thread Ceremony</option>
-          <option value="karnavedha">Karnavedha — Ear Piercing</option>
-          <option value="birthday">First Birthday Puja</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Child's Name</label>
-        <input type="text" id="s_name" placeholder="e.g. Aarav Sharma" autocomplete="off">
-      </div>
-      <div class="field">
-        <label>Child's Name in Hindi <em style="text-transform:none;font-size:0.75rem;">(optional)</em></label>
-        <input type="text" id="s_hindi" placeholder="e.g. आरव शर्मा" autocomplete="off">
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title"><span class="icon">📅</span> Date, Time & Venue</div>
-      <div class="row2">
-        <div class="field">
-          <label>Date</label>
-          <input type="date" id="s_date">
-        </div>
-        <div class="field">
-          <label>Time</label>
-          <input type="time" id="s_time">
-        </div>
-      </div>
-      <div class="field">
-        <label>Muhurt Note <em style="text-transform:none;font-size:0.75rem;">(optional)</em></label>
-        <input type="text" id="s_muhurt" placeholder="e.g. 10:00–11:30 AM Shubh Muhurt">
-      </div>
-      <div class="field">
-        <label>Venue Name</label>
-        <input type="text" id="s_venue" placeholder="e.g. Shri Ram Community Hall">
-      </div>
-      <div class="field">
-        <label>Full Address</label>
-        <input type="text" id="s_address" placeholder="12 Puja Lane, Varanasi, UP">
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title"><span class="icon">👨‍👩‍👧</span> Host Details</div>
-      <div class="field">
-        <label>Hosted By</label>
-        <input type="text" id="s_hosts" placeholder="e.g. Ram & Sita Sharma">
-      </div>
-      <div class="field">
-        <label>Extra Note for Invitees <em style="text-transform:none;font-size:0.75rem;">(optional)</em></label>
-        <textarea id="s_extra" placeholder="e.g. Lunch will be served. Please come with family. Parking available."></textarea>
-      </div>
-    </div>
-
-    <button class="btn-save" onclick="saveSetup()">
-      ✅ Save & Go to Send Invites →
-    </button>
-
-    <!-- Invitation card preview -->
-    <button class="preview-toggle" onclick="togglePreview()" id="previewToggleBtn" style="display:none">
-      👁 Preview invitation card
-    </button>
-    <div class="preview-wrap" id="previewWrap">
-      <div id="invCardPreview"></div>
-    </div>
-
-  </section>
-
-  <!-- ══════════ TAB 2: SEND ══════════ -->
-  <section class="section" id="sendSection" role="tabpanel">
-
-    <!-- Event summary banner -->
-    <div class="event-banner" id="eventBanner">
-      <div class="eb-ceremony" id="ebCeremony">—</div>
-      <div class="eb-row"><span class="eico">👶</span> <span id="ebName">—</span></div>
-      <div class="eb-row"><span class="eico">📅</span> <span id="ebDate">—</span></div>
-      <div class="eb-row"><span class="eico">🕐</span> <span id="ebTime">—</span></div>
-      <div class="eb-row"><span class="eico">📍</span> <span id="ebVenue">—</span></div>
-      <button class="eb-edit" onclick="switchTab('setup')">✏️ Edit event details</button>
-    </div>
-
-    <div class="card">
-      <div class="card-title"><span class="icon">📋</span> Invitees</div>
-
-      <!-- Search + contacts picker -->
-      <div class="search-row">
-        <div class="field" style="margin:0;flex:1">
-          <input type="text" id="searchInput" placeholder="Search added invitees…" oninput="renderList()" autocomplete="off">
-        </div>
-        <button class="btn-contacts" onclick="pickFromContacts()" title="Pick contacts from your phone">
-          📱 Contacts
-        </button>
-      </div>
-
-      <!-- List -->
-      <div class="invitee-list" id="inviteeList">
-        <div class="empty-msg">
-          <span class="em-icon">🙏</span>
-          No invitees added yet.<br>Use the Contacts button or add manually below.
-        </div>
-      </div>
-
-      <!-- Manual add -->
-      <div class="manual-row">
-        <div class="field f-name" style="margin:0">
-          <label>Name</label>
-          <input type="text" id="m_name" placeholder="Guest name" autocomplete="off">
-        </div>
-        <div class="field f-phone" style="margin:0">
-          <label>Phone (with country code)</label>
-          <input type="tel" id="m_phone" placeholder="+91 98765 43210" autocomplete="off">
-        </div>
-        <div style="padding-top:1.3rem">
-          <button class="btn-sm" onclick="addManual()">+ Add</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Send all bar -->
-    <div class="send-bar" id="sendBar">
-      <div class="send-count">Ready for <strong id="invCount">0</strong> guests</div>
-      <button class="btn-send-all" onclick="sendAll()">
-        📲 Send All on WhatsApp
-      </button>
-    </div>
-
-    <div class="notice" id="sendNotice" style="display:none">
-      <strong>How it works:</strong> WhatsApp opens once per contact with a personalised message pre-filled — just tap Send. Each message addresses them by name with your full event details.
-    </div>
-
-    <!-- Message preview -->
-    <button class="preview-toggle" onclick="toggleMsgPreview()" id="msgPreviewBtn" style="display:none">
-      👁 Preview WhatsApp message
-    </button>
-    <div class="preview-wrap" id="msgPreviewWrap">
-      <div class="preview-message" id="msgPreviewText"></div>
-      <p class="preview-note">"{Name}" will be replaced with each invitee's name when sent</p>
-    </div>
-
-    <div class="notice" style="margin-top:0.8rem">
-      🔒 <strong>Your privacy:</strong> All contact data stays on your device. Nothing is sent to any server. This app works entirely in your browser.
-    </div>
-
-  </section>
-
+  <div class="dots">
+    <div class="dot active" id="dot1" onclick="goSlide1()" title="Slide 1"></div>
+    <div class="dot"        id="dot2" onclick="goSlide2()" title="Slide 2"></div>
+  </div>
 </div>
 
-<footer>
-  🕉 &nbsp;Shubh Karyam Bhavatu &nbsp;·&nbsp; Made with 🙏 for your auspicious occasions
-</footer>
+
+<!-- ════════════ SENDER VIEW ════════════ -->
+<div id="senderView">
+  <div class="bg-layer" aria-hidden="true"></div>
+  <div class="sender-petals" id="senderPetals" aria-hidden="true"></div>
+
+  <div class="page-wrap">
+    <header class="page-header">
+      <div class="om" role="img" aria-label="Om">🕉</div>
+      <div class="sanskrit">ॐ श्री गणेशाय नमः</div>
+      <h1>Puja Invitation Sender</h1>
+      <p>Set up once · Send to everyone · Via WhatsApp</p>
+    </header>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-gem"></div><div class="divider-line"></div></div>
+
+    <div class="step-tabs" role="tablist">
+      <button class="tab-btn active" role="tab" aria-selected="true"  aria-controls="setupSection" onclick="switchTab('setup')"><span class="tab-num">1</span> Event Setup</button>
+      <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="sendSection"  onclick="switchTab('send')"><span class="tab-num">2</span> Send Invites</button>
+    </div>
+
+    <!-- TAB 1: SETUP -->
+    <section class="section active" id="setupSection" role="tabpanel">
+      <div class="card">
+        <div class="card-title">✨ Ceremony Details</div>
+        <div class="field">
+          <label>Ceremony Type</label>
+          <select id="s_cer">
+            <option value="mundan">Mundan — First Sacred Hair Offering</option>
+            <option value="annaprashan">Annaprashan — First Rice Feeding</option>
+            <option value="namkaran">Namkaran — Naming Ceremony</option>
+            <option value="upanayana">Upanayana — Sacred Thread Ceremony</option>
+            <option value="karnavedha">Karnavedha — Ear Piercing</option>
+            <option value="birthday">First Birthday Puja</option>
+          </select>
+        </div>
+        <div class="field"><label>Child's Name</label><input type="text" id="s_name" placeholder="e.g. Aarav Sharma" autocomplete="off"></div>
+        <div class="field"><label>Child's Name in Hindi <em style="text-transform:none;font-size:0.75rem">(optional)</em></label><input type="text" id="s_hindi" placeholder="e.g. आरव शर्मा"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📅 Date, Time & Venue</div>
+        <div class="row2">
+          <div class="field"><label>Date</label><input type="date" id="s_date"></div>
+          <div class="field"><label>Time</label><input type="time" id="s_time"></div>
+        </div>
+        <div class="field"><label>Muhurt Note <em style="text-transform:none;font-size:0.75rem">(optional)</em></label><input type="text" id="s_muhurt" placeholder="e.g. 10:00–11:30 AM Shubh Muhurt"></div>
+        <div class="field"><label>Venue Name</label><input type="text" id="s_venue" placeholder="e.g. Shri Ram Community Hall"></div>
+        <div class="field"><label>Full Address</label><input type="text" id="s_address" placeholder="12 Puja Lane, Varanasi, UP"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">👨‍👩‍👧 Host Details</div>
+        <div class="field"><label>Hosted By</label><input type="text" id="s_hosts" placeholder="e.g. Ram & Sita Sharma"></div>
+        <div class="field"><label>Extra Note <em style="text-transform:none;font-size:0.75rem">(optional)</em></label><textarea id="s_extra" placeholder="e.g. Lunch will be served. Please come with family."></textarea></div>
+      </div>
+
+      <button class="btn-save" onclick="saveSetup()">✅ Save & Go to Send Invites →</button>
+      <button class="preview-link-btn" id="previewCardBtn" style="display:none" onclick="previewCard()">👁 Preview animated invitation card</button>
+    </section>
+
+    <!-- TAB 2: SEND -->
+    <section class="section" id="sendSection" role="tabpanel">
+      <div class="event-banner" id="eventBanner">
+        <div class="eb-ceremony" id="ebCeremony">—</div>
+        <div class="eb-row"><span>👶</span><span id="ebName">—</span></div>
+        <div class="eb-row"><span>📅</span><span id="ebDate">—</span></div>
+        <div class="eb-row"><span>🕐</span><span id="ebTime">—</span></div>
+        <div class="eb-row"><span>📍</span><span id="ebVenue">—</span></div>
+        <button class="eb-edit" onclick="switchTab('setup')">✏️ Edit event details</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Invitees</div>
+        <div class="search-row">
+          <div class="field"><input type="text" id="searchInput" placeholder="Search added invitees…" oninput="renderList()" autocomplete="off"></div>
+          <button class="btn-contacts" onclick="pickFromContacts()">📱 Contacts</button>
+        </div>
+        <div class="invitee-list" id="inviteeList">
+          <div class="empty-msg"><span class="em-icon">🙏</span>No invitees yet.<br>Use Contacts or add manually below.</div>
+        </div>
+        <div class="manual-row">
+          <div class="field f-name"  style="margin:0"><label>Name</label><input type="text" id="m_name" placeholder="Guest name" autocomplete="off"></div>
+          <div class="field f-phone" style="margin:0"><label>Phone (with country code)</label><input type="tel" id="m_phone" placeholder="+91 98765 43210"></div>
+          <div style="padding-top:1.3rem"><button class="btn-sm" onclick="addManual()">+ Add</button></div>
+        </div>
+      </div>
+
+      <div class="send-bar" id="sendBar">
+        <div class="send-count">Ready for <strong id="invCount">0</strong> guests</div>
+        <button class="btn-send-all" onclick="sendAll()">📲 Send All on WhatsApp</button>
+      </div>
+
+      <div class="notice" id="sendNotice" style="display:none">
+        Each guest gets a personalised WhatsApp message with a link to their own beautiful animated invitation card — addressed by their name.
+      </div>
+      <div class="notice" style="margin-top:0.8rem">🔒 <strong>Privacy:</strong> Everything stays on your device. Zero servers, zero tracking.</div>
+    </section>
+  </div>
+
+  <footer>🕉 &nbsp;Shubh Karyam Bhavatu &nbsp;·&nbsp; Made with 🙏 for your auspicious occasions</footer>
+</div>
 
 <script>
-// ═══════════════════════════════════════════
-// CEREMONY CONFIG
-// ═══════════════════════════════════════════
+/* ═══════════════════════════════════
+   CEREMONIES
+═══════════════════════════════════ */
 const CEREMONIES = {
-  mundan:      { title: 'Mundan Ceremony',      subtitle: 'First Sacred Hair Offering',    prose: 'Mundan Sanskar',      fns: ['Ganesh Puja','Mundan Vidhi','Yagya','Blessings','Lunch'] },
-  annaprashan: { title: 'Annaprashan Ceremony', subtitle: 'First Rice Feeding Ritual',      prose: 'Annaprashan Sanskar', fns: ['Ganesh Puja','Annaprashan Vidhi','Blessings','Feast'] },
-  namkaran:    { title: 'Namkaran Ceremony',    subtitle: 'Sacred Naming Ritual',           prose: 'Namkaran Sanskar',    fns: ['Ganesh Puja','Namkaran Vidhi','Celebration','Mithai'] },
-  upanayana:   { title: 'Upanayana Ceremony',   subtitle: 'Sacred Thread Ceremony',         prose: 'Upanayana Sanskar',   fns: ['Ganesh Puja','Yagnopavit Vidhi','Yagya','Prasad'] },
-  karnavedha:  { title: 'Karnavedha Ceremony',  subtitle: 'Sacred Ear Piercing Ritual',     prose: 'Karnavedha Sanskar',  fns: ['Ganesh Puja','Karnavedha Vidhi','Blessings','Lunch'] },
-  birthday:    { title: 'First Birthday Puja',  subtitle: 'Celebrating One Blessed Year',   prose: 'Birthday Puja',       fns: ['Ganesh Puja','Satyanarayan Katha','Cake Cutting','Lunch'] },
+  mundan:      {title:'Mundan Ceremony',      subtitle:'First Sacred Hair Offering',  prose:'Mundan Sanskar',      fns:['Ganesh Puja','Mundan Vidhi','Yagya','Blessings','Lunch']},
+  annaprashan: {title:'Annaprashan Ceremony', subtitle:'First Rice Feeding Ritual',    prose:'Annaprashan Sanskar', fns:['Ganesh Puja','Annaprashan Vidhi','Blessings','Feast']},
+  namkaran:    {title:'Namkaran Ceremony',    subtitle:'Sacred Naming Ritual',         prose:'Namkaran Sanskar',    fns:['Ganesh Puja','Namkaran Vidhi','Celebration','Mithai']},
+  upanayana:   {title:'Upanayana Ceremony',   subtitle:'Sacred Thread Ceremony',       prose:'Upanayana Sanskar',   fns:['Ganesh Puja','Yagnopavit Vidhi','Yagya','Prasad']},
+  karnavedha:  {title:'Karnavedha Ceremony',  subtitle:'Sacred Ear Piercing Ritual',   prose:'Karnavedha Sanskar',  fns:['Ganesh Puja','Karnavedha Vidhi','Blessings','Lunch']},
+  birthday:    {title:'First Birthday Puja',  subtitle:'Celebrating One Blessed Year', prose:'Birthday Puja',       fns:['Ganesh Puja','Satyanarayan Katha','Cake Cutting','Lunch']},
 };
 
-// ═══════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════
+/* ═══════════════════════════════════
+   STATE
+═══════════════════════════════════ */
 let eventData = null;
-let invitees  = [];   // [{id, name, phone}]
+let invitees  = [];
 let sentIds   = new Set();
 let nextId    = 1;
+let onSlide2  = false;
 
-// ═══════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════
-function fmtDate(d) {
-  if (!d) return '';
-  const dt = new Date(d + 'T00:00:00');
-  return dt.toLocaleDateString('en-IN', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+/* ═══════════════════════════════════
+   HELPERS
+═══════════════════════════════════ */
+function fmtDate(d){ if(!d)return''; return new Date(d+'T00:00:00').toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'}); }
+function fmtTime(t){ if(!t)return''; const[h,m]=t.split(':').map(Number); return `${h%12||12}:${String(m).padStart(2,'0')} ${h>=12?'PM':'AM'}`; }
+function initials(n){ return n.trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?'; }
+function cleanPhone(p){ return p.replace(/[\s\-\(\)]/g,''); }
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ═══════════════════════════════════
+   URL / ROUTING
+═══════════════════════════════════ */
+function getParams(){
+  const s=window.location.search||'';
+  const h=window.location.hash||'';
+  const qi=h.indexOf('?');
+  const qs=s?s.slice(1):(qi!==-1?h.slice(qi+1):'');
+  return qs?Object.fromEntries(new URLSearchParams(qs)):{};
 }
-function fmtTime(t) {
-  if (!t) return '';
-  const [h, m] = t.split(':').map(Number);
-  return `${h % 12 || 12}:${String(m).padStart(2,'0')} ${h >= 12 ? 'PM' : 'AM'}`;
+function buildInviteURL(guestName){
+  if(!eventData)return window.location.href;
+  const p=new URLSearchParams({view:'1',g:guestName,c:eventData.cer,n:eventData.name,hn:eventData.hindi||'',dt:eventData.date||'',tm:eventData.time||'',mu:eventData.muhurt||'',v:eventData.venue||'',a:eventData.address||'',h:eventData.hosts||'',ex:eventData.extra||''});
+  return `${window.location.origin}${window.location.pathname}?${p.toString()}`;
 }
-function initials(name) {
-  return name.trim().split(/\s+/).slice(0,2).map(w => w[0] || '').join('').toUpperCase() || '?';
-}
-function cleanPhone(p) {
-  return p.replace(/[\s\-\(\)]/g, '');
-}
-
-// ═══════════════════════════════════════════
-// TAB SWITCHING
-// ═══════════════════════════════════════════
-function switchTab(t) {
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    b.classList.toggle('active', b.getAttribute('aria-controls') === t + 'Section');
-    b.setAttribute('aria-selected', b.getAttribute('aria-controls') === t + 'Section');
-  });
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById(t + 'Section').classList.add('active');
-  if (t === 'send') renderBanner();
-}
-
-// ═══════════════════════════════════════════
-// SETUP / SAVE
-// ═══════════════════════════════════════════
-function saveSetup() {
-  const name  = document.getElementById('s_name').value.trim();
-  const cer   = document.getElementById('s_cer').value;
-  const date  = document.getElementById('s_date').value;
-  const time  = document.getElementById('s_time').value;
-  const venue = document.getElementById('s_venue').value.trim();
-
-  if (!name)  { alert('Please enter the child\'s name.'); return; }
-  if (!date)  { alert('Please select the ceremony date.'); return; }
-  if (!venue) { alert('Please enter the venue name.'); return; }
-
-  eventData = {
-    cer, name,
-    hindi:   document.getElementById('s_hindi').value.trim(),
-    date, time,
-    muhurt:  document.getElementById('s_muhurt').value.trim(),
-    venue,
-    address: document.getElementById('s_address').value.trim(),
-    hosts:   document.getElementById('s_hosts').value.trim(),
-    extra:   document.getElementById('s_extra').value.trim(),
-  };
-
-  // Show preview button
-  document.getElementById('previewToggleBtn').style.display = 'inline-block';
-  buildCardPreview();
-
-  switchTab('send');
-}
-
-// ═══════════════════════════════════════════
-// BANNER (send tab)
-// ═══════════════════════════════════════════
-function renderBanner() {
-  if (!eventData) { document.getElementById('eventBanner').classList.remove('visible'); return; }
-  const c = CEREMONIES[eventData.cer] || CEREMONIES.mundan;
-  document.getElementById('ebCeremony').textContent = c.title;
-  document.getElementById('ebName').textContent     = eventData.name + (eventData.hindi ? ' (' + eventData.hindi + ')' : '');
-  document.getElementById('ebDate').textContent     = fmtDate(eventData.date);
-  document.getElementById('ebTime').textContent     = fmtTime(eventData.time) + (eventData.muhurt ? ' · ' + eventData.muhurt : '');
-  document.getElementById('ebVenue').textContent    = eventData.venue + (eventData.address ? ', ' + eventData.address : '');
-  document.getElementById('eventBanner').classList.add('visible');
-}
-
-// ═══════════════════════════════════════════
-// WHATSAPP MESSAGE BUILDER
-// ═══════════════════════════════════════════
-function buildMessage(guestName) {
-  if (!eventData) return '';
-  const c = CEREMONIES[eventData.cer] || CEREMONIES.mundan;
-  const lines = [
-    `🕉 *Namaskar ${guestName}! 🙏*`,
-    ``,
-    `With the blessings of the Almighty and joyful hearts, we cordially invite you to the auspicious`,
-    `*${c.prose}* of our beloved child,`,
-    ``,
-    `✨ *${eventData.name}*${eventData.hindi ? ' (' + eventData.hindi + ')' : ''}`,
-    ``,
+function buildWAMessage(guestName){
+  if(!eventData)return'';
+  const c=CEREMONIES[eventData.cer]||CEREMONIES.mundan;
+  const url=buildInviteURL(guestName);
+  const lines=[
+    `🕉 *Namaskar ${guestName}! 🙏*`,``,
+    `We joyfully invite you to the auspicious *${c.prose}* of our beloved child,`,
+    `✨ *${eventData.name}*${eventData.hindi?' ('+eventData.hindi+')':''}`,``,
     `📅 *Date:* ${fmtDate(eventData.date)}`,
   ];
-  if (eventData.time)   lines.push(`🕐 *Time:* ${fmtTime(eventData.time)}${eventData.muhurt ? ' (' + eventData.muhurt + ')' : ''}`);
-  if (eventData.venue)  lines.push(`📍 *Venue:* ${eventData.venue}${eventData.address ? ', ' + eventData.address : ''}`);
-  if (eventData.hosts)  lines.push(`👨‍👩‍👧 *Hosted by:* ${eventData.hosts}`);
-  if (eventData.extra)  { lines.push(``); lines.push(eventData.extra); }
-  lines.push(``);
-  lines.push(`Your presence will make this day truly divine. 🌸`);
-  lines.push(`— *${eventData.hosts || 'The Family'}*`);
+  if(eventData.time)  lines.push(`🕐 *Time:* ${fmtTime(eventData.time)}${eventData.muhurt?' ('+eventData.muhurt+')':''}`);
+  if(eventData.venue) lines.push(`📍 *Venue:* ${eventData.venue}${eventData.address?', '+eventData.address:''}`);
+  if(eventData.hosts) lines.push(`👨‍👩‍👧 *Hosted by:* ${eventData.hosts}`);
+  if(eventData.extra){lines.push('');lines.push(eventData.extra);}
+  lines.push('');
+  lines.push(`🌸 *Open your personalised invitation:*`);
+  lines.push(url);
+  lines.push('');
+  lines.push(`Your presence will make this day truly divine. 🙏`);
   return lines.join('\n');
 }
 
-// ═══════════════════════════════════════════
-// INVITEE LIST
-// ═══════════════════════════════════════════
-function renderList() {
-  const container = document.getElementById('inviteeList');
-  const filter    = document.getElementById('searchInput').value.toLowerCase().trim();
-  const sendBar   = document.getElementById('sendBar');
-  const notice    = document.getElementById('sendNotice');
-  const msgBtn    = document.getElementById('msgPreviewBtn');
+/* ═══════════════════════════════════
+   INVITATION VIEW
+═══════════════════════════════════ */
+function initInvView(p){
+  document.getElementById('senderView').style.display='none';
+  document.getElementById('invView').classList.add('active');
+  const c=CEREMONIES[p.c]||CEREMONIES.mundan;
 
-  const shown = filter
-    ? invitees.filter(i => i.name.toLowerCase().includes(filter))
-    : invitees;
+  // Slide 1
+  document.getElementById('guestName').textContent   = p.g?'Dear '+p.g:'Dear Guest';
+  document.getElementById('ceremonyName').textContent = c.title;
+  document.getElementById('ceremonySub').textContent  = c.subtitle;
+  document.getElementById('childNameS1').textContent  = p.n||'—';
+  if(p.hn){document.getElementById('childDevS1').textContent=p.hn;document.getElementById('childDevS1').style.display='block';}
 
-  if (invitees.length === 0) {
-    container.innerHTML = `<div class="empty-msg"><span class="em-icon">🙏</span>No invitees added yet.<br>Use the Contacts button or add manually below.</div>`;
-    sendBar.classList.remove('visible');
-    notice.style.display = 'none';
-    if (msgBtn) msgBtn.style.display = 'none';
-    return;
+  // Slide 2
+  document.getElementById('s2Title').textContent   = c.title;
+  document.getElementById('s2Sub').textContent      = c.subtitle;
+  document.getElementById('detailDate').textContent = p.dt?fmtDate(p.dt):'—';
+  document.getElementById('detailTime').textContent = p.tm?fmtTime(p.tm):'—';
+  if(p.mu){const e=document.getElementById('detailMuhurt');e.textContent=p.mu;e.style.display='block';}
+  document.getElementById('detailVenue').textContent=p.v||'—';
+  if(p.a){const e=document.getElementById('detailAddress');e.textContent=p.a;e.style.display='block';}
+  document.getElementById('detailHosts').textContent=p.h||'The Family';
+  if(p.ex){const e=document.getElementById('extraCard');e.style.display='block';document.getElementById('detailExtra').textContent=p.ex;}
+
+  // Function badges
+  const fnRow=document.getElementById('fnRow');
+  c.fns.forEach(f=>{const s=document.createElement('span');s.className='fn-pill';s.textContent=f;fnRow.appendChild(s);});
+
+  document.title=(p.n||'Puja')+' — '+c.title+' Invitation';
+  spawnPetals('invPetals');
+  initSwipe();
+}
+
+/* ═══════════════════════════════════
+   SLIDE NAVIGATION
+═══════════════════════════════════ */
+function goSlide2(){
+  if(onSlide2)return;
+  onSlide2=true;
+  document.getElementById('slide1').classList.add('gone');
+  document.getElementById('slide2').classList.add('here');
+  document.getElementById('dot1').classList.remove('active');
+  document.getElementById('dot2').classList.add('active');
+  setTimeout(()=>{ document.querySelectorAll('.slide-in').forEach(el=>el.classList.add('visible')); },120);
+}
+function goSlide1(){
+  if(!onSlide2)return;
+  onSlide2=false;
+  document.getElementById('slide1').classList.remove('gone');
+  document.getElementById('slide2').classList.remove('here');
+  document.getElementById('dot1').classList.add('active');
+  document.getElementById('dot2').classList.remove('active');
+  document.querySelectorAll('.slide-in').forEach(el=>el.classList.remove('visible'));
+}
+function initSwipe(){
+  let sx=null;
+  const wrap=document.querySelector('.slides-wrap');
+  wrap.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+  wrap.addEventListener('touchend',e=>{
+    if(sx===null)return;
+    const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>50){dx<0?goSlide2():goSlide1();}
+    sx=null;
+  },{passive:true});
+}
+
+/* ═══════════════════════════════════
+   PETALS
+═══════════════════════════════════ */
+function spawnPetals(id){
+  const emojis=['🌸','🌺','🌼','🪷','✿','❀'];
+  const c=document.getElementById(id);
+  if(!c)return;
+  for(let i=0;i<22;i++){
+    const el=document.createElement('span');
+    el.className='petal';
+    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.cssText=`left:${Math.random()*100}%;font-size:${0.7+Math.random()*0.9}rem;animation-duration:${9+Math.random()*14}s;animation-delay:${Math.random()*20}s`;
+    c.appendChild(el);
   }
+}
 
-  sendBar.classList.add('visible');
-  notice.style.display = 'block';
-  if (msgBtn) msgBtn.style.display = 'inline-block';
-  document.getElementById('invCount').textContent = invitees.length;
-  updateMsgPreview();
+/* ═══════════════════════════════════
+   SENDER: TABS
+═══════════════════════════════════ */
+function switchTab(t){
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    const a=b.getAttribute('aria-controls')===t+'Section';
+    b.classList.toggle('active',a);
+    b.setAttribute('aria-selected',a);
+  });
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(t+'Section').classList.add('active');
+  if(t==='send')renderBanner();
+}
 
-  container.innerHTML = '';
+/* ═══════════════════════════════════
+   SENDER: SETUP
+═══════════════════════════════════ */
+function saveSetup(){
+  const name=document.getElementById('s_name').value.trim();
+  const cer =document.getElementById('s_cer').value;
+  const date=document.getElementById('s_date').value;
+  const venue=document.getElementById('s_venue').value.trim();
+  if(!name){alert("Please enter the child's name.");return;}
+  if(!date){alert('Please select the ceremony date.');return;}
+  if(!venue){alert('Please enter the venue name.');return;}
+  eventData={cer,name,
+    hindi:  document.getElementById('s_hindi').value.trim(),
+    date,time:document.getElementById('s_time').value,
+    muhurt: document.getElementById('s_muhurt').value.trim(),
+    venue,address:document.getElementById('s_address').value.trim(),
+    hosts:  document.getElementById('s_hosts').value.trim(),
+    extra:  document.getElementById('s_extra').value.trim(),
+  };
+  document.getElementById('previewCardBtn').style.display='flex';
+  switchTab('send');
+}
+function previewCard(){
+  if(!eventData)return;
+  window.open(buildInviteURL('You'),'_blank');
+}
 
-  if (shown.length === 0) {
-    container.innerHTML = `<div class="empty-msg" style="padding:1rem">No matches for "${filter}"</div>`;
-    return;
+/* ═══════════════════════════════════
+   SENDER: BANNER
+═══════════════════════════════════ */
+function renderBanner(){
+  if(!eventData){document.getElementById('eventBanner').classList.remove('visible');return;}
+  const c=CEREMONIES[eventData.cer]||CEREMONIES.mundan;
+  document.getElementById('ebCeremony').textContent=c.title;
+  document.getElementById('ebName').textContent=eventData.name+(eventData.hindi?' ('+eventData.hindi+')':'');
+  document.getElementById('ebDate').textContent=fmtDate(eventData.date);
+  document.getElementById('ebTime').textContent=fmtTime(eventData.time)+(eventData.muhurt?' · '+eventData.muhurt:'');
+  document.getElementById('ebVenue').textContent=eventData.venue+(eventData.address?', '+eventData.address:'');
+  document.getElementById('eventBanner').classList.add('visible');
+}
+
+/* ═══════════════════════════════════
+   SENDER: INVITEE LIST
+═══════════════════════════════════ */
+function renderList(){
+  const container=document.getElementById('inviteeList');
+  const filter=document.getElementById('searchInput').value.toLowerCase().trim();
+  const sendBar=document.getElementById('sendBar');
+  const notice=document.getElementById('sendNotice');
+  const shown=filter?invitees.filter(i=>i.name.toLowerCase().includes(filter)):invitees;
+  if(invitees.length===0){
+    container.innerHTML='<div class="empty-msg"><span class="em-icon">🙏</span>No invitees yet.<br>Use Contacts or add manually below.</div>';
+    sendBar.classList.remove('visible');notice.style.display='none';return;
   }
-
-  shown.forEach(inv => {
-    const isSent = sentIds.has(inv.id);
-    const div = document.createElement('div');
-    div.className = 'inv-row';
-    div.innerHTML = `
+  sendBar.classList.add('visible');notice.style.display='block';
+  document.getElementById('invCount').textContent=invitees.length;
+  container.innerHTML='';
+  if(shown.length===0){container.innerHTML=`<div class="empty-msg" style="padding:1rem">No matches for "${escHtml(filter)}"</div>`;return;}
+  shown.forEach(inv=>{
+    const isSent=sentIds.has(inv.id);
+    const div=document.createElement('div');
+    div.className='inv-row';
+    div.innerHTML=`
       <div class="avatar">${initials(inv.name)}</div>
       <div class="inv-info">
-        <div class="inv-name">${escHtml(inv.name)}${isSent ? '<span class="sent-pill">✓ Sent</span>' : ''}</div>
-        <div class="inv-phone">${inv.phone ? escHtml(inv.phone) : '<em style="color:var(--text-muted)">No number</em>'}</div>
+        <div class="inv-name">${escHtml(inv.name)}${isSent?'<span class="sent-pill">✓ Sent</span>':''}</div>
+        <div class="inv-phone">${inv.phone?escHtml(inv.phone):'<em style="color:var(--text-muted)">No number</em>'}</div>
       </div>
       <div class="inv-actions">
-        <button class="btn-wa${isSent ? ' sent' : ''}" onclick="sendOne(${inv.id})" title="Send WhatsApp invite">
-          ${isSent ? '✓ Resend' : '📲 Send'}
-        </button>
-        <button class="btn-rm" onclick="removeInvitee(${inv.id})" aria-label="Remove ${escHtml(inv.name)}">✕</button>
+        <button class="btn-wa${isSent?' sent':''}" onclick="sendOne(${inv.id})">📲 ${isSent?'Resend':'Send'}</button>
+        <button class="btn-rm" onclick="removeInvitee(${inv.id})" aria-label="Remove">✕</button>
       </div>`;
     container.appendChild(div);
   });
 }
-
-function addInvitee(name, phone) {
-  name  = name.trim();
-  phone = phone ? phone.trim() : '';
-  if (!name) return;
-  // Avoid exact duplicate name+phone
-  if (invitees.some(i => i.name.toLowerCase() === name.toLowerCase() && i.phone === phone)) return;
-  invitees.push({ id: nextId++, name, phone });
+function addInvitee(name,phone){
+  name=name.trim();phone=phone?phone.trim():'';
+  if(!name)return;
+  if(invitees.some(i=>i.name.toLowerCase()===name.toLowerCase()&&i.phone===phone))return;
+  invitees.push({id:nextId++,name,phone});
   renderList();
 }
-
-function removeInvitee(id) {
-  invitees = invitees.filter(i => i.id !== id);
-  sentIds.delete(id);
-  renderList();
-}
-
-function addManual() {
-  const name  = document.getElementById('m_name').value.trim();
-  const phone = document.getElementById('m_phone').value.trim();
-  if (!name) { alert('Please enter a name.'); return; }
-  addInvitee(name, phone);
-  document.getElementById('m_name').value  = '';
-  document.getElementById('m_phone').value = '';
+function removeInvitee(id){invitees=invitees.filter(i=>i.id!==id);sentIds.delete(id);renderList();}
+function addManual(){
+  const name=document.getElementById('m_name').value.trim();
+  const phone=document.getElementById('m_phone').value.trim();
+  if(!name){alert('Please enter a name.');return;}
+  addInvitee(name,phone);
+  document.getElementById('m_name').value='';
+  document.getElementById('m_phone').value='';
   document.getElementById('m_name').focus();
 }
-
-// Enter key on manual fields
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && (e.target.id === 'm_name' || e.target.id === 'm_phone')) {
-    addManual();
-  }
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&(e.target.id==='m_name'||e.target.id==='m_phone'))addManual();
 });
 
-// ═══════════════════════════════════════════
-// WHATSAPP SEND
-// ═══════════════════════════════════════════
-function sendOne(id) {
-  const inv = invitees.find(i => i.id === id);
-  if (!inv) return;
-  if (!eventData) { alert('Please complete Event Setup first.'); switchTab('setup'); return; }
-
-  const phone = cleanPhone(inv.phone);
-  if (!phone) {
-    alert(`No phone number saved for ${inv.name}.\nPlease edit and add their number.`);
-    return;
-  }
-  const msg = encodeURIComponent(buildMessage(inv.name));
-  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
-  sentIds.add(id);
-  renderList();
+/* ═══════════════════════════════════
+   SENDER: WHATSAPP SEND
+═══════════════════════════════════ */
+function sendOne(id){
+  const inv=invitees.find(i=>i.id===id);
+  if(!inv)return;
+  if(!eventData){alert('Please complete Event Setup first.');switchTab('setup');return;}
+  const phone=cleanPhone(inv.phone);
+  if(!phone){alert(`No phone number for ${inv.name}. Please add it first.`);return;}
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(buildWAMessage(inv.name))}`,'_blank');
+  sentIds.add(id);renderList();
 }
-
-function sendAll() {
-  if (!eventData) { alert('Please complete Event Setup first.'); switchTab('setup'); return; }
-  const pending = invitees.filter(i => i.phone && cleanPhone(i.phone));
-  if (pending.length === 0) {
-    alert('No invitees with phone numbers. Please add phone numbers for your guests.');
-    return;
-  }
-  const noPhone = invitees.filter(i => !i.phone || !cleanPhone(i.phone));
-  if (noPhone.length > 0) {
-    const names = noPhone.map(i => i.name).join(', ');
-    if (!confirm(`${noPhone.length} guest(s) have no phone number and will be skipped:\n${names}\n\nContinue sending to the rest?`)) return;
-  }
-  pending.forEach((inv, idx) => {
-    setTimeout(() => {
-      const msg = encodeURIComponent(buildMessage(inv.name));
-      window.open(`https://wa.me/${cleanPhone(inv.phone)}?text=${msg}`, '_blank');
+function sendAll(){
+  if(!eventData){alert('Please complete Event Setup first.');switchTab('setup');return;}
+  const pending=invitees.filter(i=>i.phone&&cleanPhone(i.phone));
+  const noPhone=invitees.filter(i=>!i.phone||!cleanPhone(i.phone));
+  if(pending.length===0){alert('No invitees with phone numbers.');return;}
+  if(noPhone.length>0&&!confirm(`${noPhone.length} guest(s) have no phone and will be skipped:\n${noPhone.map(i=>i.name).join(', ')}\n\nContinue?`))return;
+  pending.forEach((inv,idx)=>{
+    setTimeout(()=>{
+      window.open(`https://wa.me/${cleanPhone(inv.phone)}?text=${encodeURIComponent(buildWAMessage(inv.name))}`,'_blank');
       sentIds.add(inv.id);
-      if (idx === pending.length - 1) renderList();
-    }, idx * 700);
+      if(idx===pending.length-1)renderList();
+    },idx*700);
   });
 }
 
-// ═══════════════════════════════════════════
-// CONTACTS PICKER
-// ═══════════════════════════════════════════
-async function pickFromContacts() {
-  if (!('contacts' in navigator && 'ContactsManager' in window)) {
-    const msg = [
-      "Your browser doesn't support the Contact Picker API.",
-      "",
-      "✅ Works on: Chrome for Android, Safari iOS 14.5+",
-      "❌ Doesn't work on: Desktop browsers, Firefox",
-      "",
-      "Please add guests manually using the fields below."
-    ].join('\n');
-    alert(msg);
-    return;
+/* ═══════════════════════════════════
+   CONTACTS PICKER
+═══════════════════════════════════ */
+async function pickFromContacts(){
+  if(!('contacts' in navigator&&'ContactsManager' in window)){
+    alert('Contact Picker works on:\n✅ Chrome for Android\n✅ Safari iOS 14.5+\n\nPlease add guests manually.');return;
   }
-  try {
-    const contacts = await navigator.contacts.select(['name', 'tel'], { multiple: true });
-    let added = 0;
-    contacts.forEach(c => {
-      const name  = Array.isArray(c.name)  && c.name[0]  ? c.name[0]  : '';
-      const phone = Array.isArray(c.tel)   && c.tel[0]   ? c.tel[0]   : '';
-      if (name) { addInvitee(name, phone); added++; }
+  try{
+    const contacts=await navigator.contacts.select(['name','tel'],{multiple:true});
+    contacts.forEach(c=>{
+      const name=Array.isArray(c.name)&&c.name[0]?c.name[0]:'';
+      const phone=Array.isArray(c.tel)&&c.tel[0]?c.tel[0]:'';
+      if(name)addInvitee(name,phone);
     });
-    if (added > 0) {
-      // Scroll list into view
-      document.getElementById('inviteeList').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  } catch (e) {
-    if (e.name !== 'AbortError') {
-      alert('Could not access contacts: ' + e.message);
-    }
-  }
+  }catch(e){if(e.name!=='AbortError')alert('Could not access contacts: '+e.message);}
 }
 
-// ═══════════════════════════════════════════
-// PREVIEWS
-// ═══════════════════════════════════════════
-function togglePreview() {
-  const wrap = document.getElementById('previewWrap');
-  const open = wrap.classList.toggle('open');
-  document.getElementById('previewToggleBtn').textContent = open ? '🙈 Hide invitation card' : '👁 Preview invitation card';
-}
-
-function toggleMsgPreview() {
-  const wrap = document.getElementById('msgPreviewWrap');
-  const open = wrap.classList.toggle('open');
-  document.getElementById('msgPreviewBtn').textContent = open ? '🙈 Hide message' : '👁 Preview WhatsApp message';
-  if (open) updateMsgPreview();
-}
-
-function updateMsgPreview() {
-  const el = document.getElementById('msgPreviewText');
-  if (!el) return;
-  el.textContent = buildMessage('{Name}');
-}
-
-function buildCardPreview() {
-  if (!eventData) return;
-  const c = CEREMONIES[eventData.cer] || CEREMONIES.mundan;
-  const container = document.getElementById('invCardPreview');
-  const fnBadges  = c.fns.map(f => `<span class="fn-badge">${f}</span>`).join('');
-  container.innerHTML = `
-    <div class="inv-card-outer">
-      <div class="corner-deco tl"></div><div class="corner-deco tr"></div>
-      <div class="corner-deco bl"></div><div class="corner-deco br"></div>
-      <div class="inv-card-inner">
-        <div class="ic-om">🕉</div>
-        <div class="ic-sanskrit">ॐ श्री गणेशाय नमः</div>
-        <div class="ic-dv"><div class="ic-dv-line"></div><div class="ic-dv-gem"></div><div class="ic-dv-line"></div></div>
-        <div class="ic-title">${c.title}</div>
-        <div class="ic-subtitle">${c.subtitle}</div>
-        <div class="ic-dv"><div class="ic-dv-line"></div><div class="ic-dv-gem"></div><div class="ic-dv-line"></div></div>
-        <p class="ic-prose">With the blessings of the Almighty and joyful hearts, we cordially invite you to the auspicious <strong>${c.prose}</strong> of our beloved child</p>
-        <div class="ic-name-box">
-          <div class="ic-name-label">The Little One</div>
-          <div class="ic-name">${escHtml(eventData.name)}</div>
-          ${eventData.hindi ? `<div class="ic-name-dev">${escHtml(eventData.hindi)}</div>` : ''}
-        </div>
-        <div class="fn-badges">${fnBadges}</div>
-        <div class="ic-dv"><div class="ic-dv-line"></div><div class="ic-dv-gem"></div><div class="ic-dv-line"></div></div>
-        <div class="ic-info-grid">
-          <div class="ic-info-cell">
-            <div class="ic-info-icon">📅</div>
-            <div class="ic-info-label">Date</div>
-            <div class="ic-info-val">${fmtDate(eventData.date)}</div>
-          </div>
-          <div class="ic-info-cell">
-            <div class="ic-info-icon">🕐</div>
-            <div class="ic-info-label">Time</div>
-            <div class="ic-info-val">${eventData.time ? fmtTime(eventData.time) : '—'}</div>
-            ${eventData.muhurt ? `<div class="ic-info-sub">${escHtml(eventData.muhurt)}</div>` : ''}
-          </div>
-          <div class="ic-info-cell full">
-            <div class="ic-info-icon">📍</div>
-            <div class="ic-info-label">Venue</div>
-            <div class="ic-info-val">${escHtml(eventData.venue)}</div>
-            ${eventData.address ? `<div class="ic-info-sub">${escHtml(eventData.address)}</div>` : ''}
-          </div>
-        </div>
-        ${eventData.hosts ? `<div class="ic-hosts-label">Hosted By</div><div class="ic-hosts-name">${escHtml(eventData.hosts)}</div>` : ''}
-        <div class="ic-blessing">"May the blessings of Lord Ganesha shower upon the little one.<br>Your presence will make this day truly divine."</div>
-      </div>
-    </div>`;
-}
-
-// ═══════════════════════════════════════════
-// UTILS
-// ═══════════════════════════════════════════
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ═══════════════════════════════════════════
-// FLOATING PETALS
-// ═══════════════════════════════════════════
-(function initPetals() {
-  const emojis = ['🌸','🌺','🌼','🪷','✿','❀'];
-  const container = document.getElementById('petals');
-  for (let i = 0; i < 20; i++) {
-    const el = document.createElement('span');
-    el.className = 'petal';
-    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    el.style.cssText = [
-      `left:${Math.random() * 100}%`,
-      `font-size:${0.75 + Math.random() * 0.9}rem`,
-      `animation-duration:${9 + Math.random() * 14}s`,
-      `animation-delay:${Math.random() * 18}s`,
-    ].join(';');
-    container.appendChild(el);
+/* ═══════════════════════════════════
+   INIT
+═══════════════════════════════════ */
+(function init(){
+  const p=getParams();
+  if(p.view==='1'){
+    initInvView(p);
+  } else {
+    spawnPetals('senderPetals');
+    renderList();
   }
 })();
-
-// ═══════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════
-renderList();
 </script>
 </body>
 </html>
