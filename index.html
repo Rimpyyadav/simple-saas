@@ -538,7 +538,7 @@
       <div class="field"><label>Host Family Name *</label><input type="text" id="hostFamily" placeholder="e.g. Sharma Family" value="Ramdeo Yadav"></div>
       <div class="field"><label>Ceremony Type</label>
         <select id="ceremonySelect">
-          <option value="Mundan Sanskar">Mundan Sanskar (Hair Tonsure)</option>
+          <option value="सत्ताईसा">सत्ताईसा</option>
           <option value="Annaprashan">Annaprashan (First Rice)</option>
           <option value="Namkaran">Namkaran (Naming)</option>
           <option value="Upanayana">Upanayana (Janeu)</option>
@@ -719,7 +719,7 @@
         
         if(eventConfig) {
           document.getElementById("hostFamily").value = eventConfig.hostFamily || "";
-          document.getElementById("ceremonySelect").value = eventConfig.ceremony || "Mundan Sanskar";
+          document.getElementById("ceremonySelect").value = eventConfig.ceremony || "सत्ताईसा";
           document.getElementById("childName").value = eventConfig.childName || "";
           document.getElementById("childHindi").value = eventConfig.childHindi || "";
           document.getElementById("eventDate").value = eventConfig.date || "";
