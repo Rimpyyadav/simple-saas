@@ -2,792 +2,1038 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title id="pageTitle">Puja Invitation</title>
-  <meta name="description" content="You are cordially invited" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover" />
+  <title>Shubh Puja Invitation | Sacred Ceremony</title>
+  <meta name="description" content="Beautiful puja invitation card with deep maroon and gold theme" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Noto+Serif+Devanagari:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Noto+Serif+Devanagari:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     :root {
-      --gold: #C8922A; --gold-light: #F0D080; --gold-dark: #8B5E1A;
-      --gold-bg: rgba(200,146,42,0.10); --gold-border: rgba(200,146,42,0.30);
-      --cream: #FDF8EE; --maroon: #7B1F2E; --maroon-light: #A8354A;
-      --text-dark: #2A1505; --text-mid: #5C3A1E; --text-muted: #9A7040;
-      --surface: #FFF9F0; --white: #FFFDF7; --border: rgba(200,146,42,0.25);
-      --shadow: 0 2px 20px rgba(139,94,26,0.10); --radius: 6px; --radius-lg: 10px;
+      --deep-maroon: #4a0b18;
+      --gold-pure: #d4af37;
+      --gold-shimmer: #f5e18b;
+      --gold-burnish: #b68b2c;
+      --cream: #fef6e6;
     }
-    html, body { height: 100%; font-family: 'Cormorant Garamond', serif; color: var(--text-dark); overflow-x: hidden; background: var(--cream); }
 
-    /* ── PETALS ── */
-    .petal { position: absolute; opacity: 0; user-select: none; animation: petalFall linear infinite; pointer-events: none; }
-    @keyframes petalFall {
-      0%   { transform: translateY(-50px) rotate(0deg); opacity: 0; }
-      8%   { opacity: 0.8; }
-      92%  { opacity: 0.5; }
-      100% { transform: translateY(110vh) rotate(600deg); opacity: 0; }
+    body {
+      background: var(--deep-maroon);
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--cream);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
-    @keyframes omGlow {
-      from { text-shadow: 0 0 10px rgba(200,146,42,0.4); }
-      to   { text-shadow: 0 0 30px rgba(200,146,42,0.9), 0 0 60px rgba(200,146,42,0.3); }
-    }
-    @keyframes slideUp   { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes slideDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes fadeScale { from { opacity:0; transform:scale(0.88); } to { opacity:1; transform:scale(1); } }
-    @keyframes shimmer   { 0% { background-position:-200% center; } 100% { background-position:200% center; } }
-    @keyframes diyaPulse {
-      from { filter:drop-shadow(0 0 6px rgba(200,146,42,0.5)); transform:scale(1); }
-      to   { filter:drop-shadow(0 0 22px rgba(200,146,42,0.95)) drop-shadow(0 0 40px rgba(200,146,42,0.4)); transform:scale(1.07); }
-    }
-    @keyframes bounce { 0%,100%{transform:translateX(0);} 50%{transform:translateX(6px);} }
-    @keyframes fadeIn  { from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;} }
 
-    /* ══════════════════════════════════════
-       INVITATION VIEW
-    ══════════════════════════════════════ */
-    #invView { display:none; position:fixed; inset:0; background:var(--cream); overflow:hidden; z-index:100; }
-    #invView.active { display:flex; flex-direction:column; }
-
-    .inv-bg {
-      position:fixed; inset:0; z-index:0; pointer-events:none;
-      background:
-        radial-gradient(ellipse 70% 60% at 15% 10%, rgba(200,146,42,0.12) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 70% at 85% 90%, rgba(123,31,46,0.10) 0%, transparent 70%);
+    /* Floating petals - optimized for mobile */
+    .petal-cloud {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
     }
-    .inv-petals-wrap { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
 
-    .slides-wrap { position:relative; z-index:2; flex:1; display:flex; overflow:hidden; }
+    .petal {
+      position: absolute;
+      font-size: 0.9rem;
+      opacity: 0;
+      animation: drift 10s linear infinite;
+      will-change: transform;
+    }
+
+    @keyframes drift {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.4; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Sender Panel - Mobile First */
+    #senderView {
+      position: relative;
+      z-index: 10;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 16px;
+      background: rgba(74, 11, 24, 0.9);
+      backdrop-filter: blur(8px);
+      min-height: 100vh;
+    }
+
+    #invView {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--deep-maroon);
+      z-index: 200;
+      overflow-y: auto;
+      flex-direction: column;
+    }
+
+    #invView.active { display: flex; }
+
+    /* Header */
+    .om-symbol {
+      font-size: 2.2rem;
+      color: var(--gold-pure);
+      text-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+      animation: pulse 2s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { text-shadow: 0 0 2px var(--gold-pure); opacity: 0.9; }
+      100% { text-shadow: 0 0 18px var(--gold-shimmer); opacity: 1; }
+    }
+
+    /* Tabs - Touch friendly */
+    .step-tabs {
+      display: flex;
+      gap: 8px;
+      background: rgba(31, 5, 12, 0.8);
+      border-radius: 60px;
+      padding: 4px;
+      margin-bottom: 16px;
+      border: 1px solid var(--gold-burnish);
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 8px;
+      border-radius: 50px;
+      color: var(--cream);
+      cursor: pointer;
+      transition: all 0.2s;
+      touch-action: manipulation;
+    }
+
+    .tab-btn.active {
+      background: var(--gold-pure);
+      color: var(--deep-maroon);
+    }
+
+    /* Cards - Mobile optimized */
+    .card {
+      background: rgba(21, 4, 10, 0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: 20px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--gold-shimmer);
+      border-left: 3px solid var(--gold-pure);
+      padding-left: 10px;
+      margin-bottom: 12px;
+    }
+
+    /* Form fields - Touch optimized */
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--gold-shimmer);
+      margin-bottom: 4px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      background: rgba(255, 245, 220, 0.12);
+      border: 1px solid var(--gold-burnish);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: var(--cream);
+      font-family: inherit;
+      font-size: 15px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      outline: none;
+      border-color: var(--gold-pure);
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+    }
+
+    /* Buttons - Large touch targets */
+    .btn-save,
+    .btn-send-all,
+    .preview-btn {
+      background: var(--gold-pure);
+      color: var(--deep-maroon);
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      padding: 14px;
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+      transition: all 0.2s;
+      touch-action: manipulation;
+    }
+
+    .preview-btn {
+      background: transparent;
+      border: 1.5px solid var(--gold-pure);
+      color: var(--gold-shimmer);
+    }
+
+    .btn-save:active,
+    .btn-send-all:active {
+      transform: scale(0.98);
+    }
+
+    /* Invitee rows - Mobile friendly */
+    .inv-row {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 60px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .inv-row > div:first-child {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .btn-wa {
+      background: #25D366;
+      border: none;
+      border-radius: 30px;
+      padding: 8px 14px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+      touch-action: manipulation;
+    }
+
+    .notice {
+      background: rgba(212, 175, 55, 0.12);
+      border-left: 3px solid var(--gold-pure);
+      border-radius: 14px;
+      padding: 10px;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    /* INVITATION SLIDES - Mobile Optimized */
+    .slides-container {
+      position: relative;
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      min-height: 100vh;
+    }
+
     .slide {
-      position:absolute; inset:0; display:flex; flex-direction:column;
-      align-items:center; justify-content:center; padding:1.5rem 1.2rem;
-      transition: transform 0.65s cubic-bezier(0.77,0,0.18,1), opacity 0.65s ease;
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      transition: transform 0.35s ease, opacity 0.35s ease;
     }
-    .slide.s1 { transform:translateX(0); opacity:1; }
-    .slide.s2 { transform:translateX(100%); opacity:0; }
-    .slide.s1.gone { transform:translateX(-100%); opacity:0; }
-    .slide.s2.here { transform:translateX(0); opacity:1; }
 
-    /* SLIDE 1 */
-    .s1-inner { text-align:center; max-width:400px; width:100%; }
-    .s1-diya  { font-size:3rem; display:block; margin-bottom:0.4rem; line-height:1; animation:diyaPulse 2s ease-in-out infinite alternate; }
-    .s1-om    { font-size:3.5rem; color:var(--maroon); line-height:1; margin-bottom:0.35rem; opacity:0; animation: omGlow 3s ease-in-out 0.4s infinite alternate, slideUp 0.7s 0.2s ease forwards; }
-    .s1-sanskrit { font-family:'Noto Serif Devanagari',serif; font-size:0.88rem; color:var(--gold-dark); letter-spacing:0.12em; margin-bottom:1.6rem; opacity:0; animation:slideDown 0.7s 0.5s ease forwards; }
+    .slide.slide1 { transform: translateX(0); opacity: 1; }
+    .slide.slide2 { transform: translateX(100%); opacity: 0; }
+    .slide.slide3 { transform: translateX(100%); opacity: 0; }
+    .slide1.gone { transform: translateX(-100%); opacity: 0; }
+    .slide2.here { transform: translateX(0); opacity: 1; }
+    .slide2.gone { transform: translateX(-100%); opacity: 0; }
+    .slide3.here { transform: translateX(0); opacity: 1; }
 
-    .s1-card {
-      background:var(--white); border:1.5px solid rgba(200,146,42,0.4);
-      border-radius:14px; padding:1.8rem 1.6rem;
-      box-shadow:0 8px 40px rgba(139,94,26,0.18), 0 0 0 6px rgba(200,146,42,0.06);
-      position:relative; overflow:hidden;
-      opacity:0; animation:fadeScale 0.8s 0.55s ease forwards;
+    .inv-card {
+      background: rgba(25, 5, 12, 0.94);
+      backdrop-filter: blur(12px);
+      border-radius: 32px;
+      border: 2px solid var(--gold-pure);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      padding: 20px 16px;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
     }
-    .s1-card::before {
-      content:''; position:absolute; top:0; left:0; right:0; height:3px;
-      background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent);
-      background-size:200% auto; animation:shimmer 3s linear infinite;
+
+    /* Ganesh Image - Mobile size */
+    .ganesh-image {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 12px;
+      background: linear-gradient(135deg, #d4af37, #f5e18b);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+      padding: 6px;
     }
-    .s1-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1.5px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
-    .corner-gem { position:absolute; font-size:0.95rem; color:var(--gold); opacity:0.45; }
-    .corner-gem.tl{top:8px;left:10px;} .corner-gem.tr{top:8px;right:10px;} .corner-gem.bl{bottom:8px;left:10px;} .corner-gem.br{bottom:8px;right:10px;}
 
-    .s1-invite-lbl { font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.5rem; }
-    .s1-guest  { font-family:'Playfair Display',serif; font-size:1.75rem; font-weight:700; color:var(--maroon); line-height:1.15; margin-bottom:0.3rem; }
-    .s1-guest-sub { font-style:italic; font-size:0.9rem; color:var(--text-muted); margin-bottom:1.3rem; }
-
-    .s1-div { display:flex; align-items:center; gap:0.6rem; margin:0.9rem 0; }
-    .s1-div-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
-    .s1-div-gem  { width:6px; height:6px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; }
-
-    .s1-cer-lbl  { font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.3rem; }
-    .s1-cer-name { font-family:'Playfair Display',serif; font-size:1.45rem; font-weight:700; color:var(--maroon); line-height:1.2; margin-bottom:0.2rem; }
-    .s1-cer-sub  { font-style:italic; color:var(--text-muted); font-size:0.88rem; margin-bottom:1.1rem; }
-
-    .s1-child-box { background:linear-gradient(135deg,rgba(200,146,42,0.08),rgba(123,31,46,0.05)); border:1px solid rgba(200,146,42,0.3); border-radius:6px; padding:0.8rem 1rem; margin-bottom:1.1rem; }
-    .s1-child-lbl  { font-size:0.66rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.2rem; }
-    .s1-child-name { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--maroon); line-height:1.1; }
-    .s1-child-dev  { font-family:'Noto Serif Devanagari',serif; font-size:0.92rem; color:var(--gold-dark); margin-top:0.15rem; }
-
-    .s1-next-btn {
-      display:flex; align-items:center; justify-content:center; gap:0.5rem;
-      width:100%; padding:0.8rem;
-      background:var(--maroon); color:var(--cream);
-      border:none; border-radius:7px;
-      font-family:'Playfair Display',serif; font-size:1rem; font-weight:700;
-      cursor:pointer; letter-spacing:0.05em;
-      box-shadow:0 4px 14px rgba(123,31,46,0.3);
-      transition:background 0.2s, transform 0.15s;
+    .ganesh-image svg {
+      width: 100%;
+      height: 100%;
     }
-    .s1-next-btn:hover { background:var(--maroon-light); transform:translateY(-1px); }
-    .s1-next-arr { display:inline-block; animation:bounce 1.2s ease-in-out infinite; }
 
-    /* SLIDE 2 */
-    .s2-inner { max-width:420px; width:100%; max-height:100vh; overflow-y:auto; padding:0.8rem 0 4rem; }
-    .s2-inner::-webkit-scrollbar { display:none; }
-
-    .s2-header { text-align:center; margin-bottom:1rem; }
-    .s2-header-title { font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--maroon); }
-    .s2-header-sub { font-style:italic; font-size:0.82rem; color:var(--text-muted); margin-top:0.15rem; }
-
-    .detail-card {
-      background:var(--white); border:1px solid rgba(200,146,42,0.28);
-      border-radius:10px; padding:1.1rem 1.2rem; margin-bottom:0.75rem;
-      box-shadow:0 2px 12px rgba(139,94,26,0.07);
-      position:relative; overflow:hidden;
+    /* Typography - Mobile readable */
+    .child-name-lg {
+      font-size: 1.4rem;
+      font-weight: 800;
+      font-family: 'Playfair Display', serif;
+      color: var(--gold-shimmer);
+      margin: 8px 0;
+      word-break: break-word;
     }
-    .detail-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:linear-gradient(180deg,var(--gold-light),var(--gold),var(--gold-dark)); border-radius:3px 0 0 3px; }
-    .dc-icon  { font-size:1.5rem; margin-bottom:0.3rem; display:block; }
-    .dc-label { font-size:0.66rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.25rem; }
-    .dc-value { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; color:var(--maroon); line-height:1.3; }
-    .dc-sub   { font-size:0.82rem; color:var(--text-mid); margin-top:0.18rem; }
 
-    .detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin-bottom:0.75rem; }
-    .detail-grid .detail-card { margin-bottom:0; }
+    .host-name-large {
+      font-size: 1.6rem;
+      font-weight: 900;
+      font-family: 'Playfair Display', serif;
+      background: linear-gradient(135deg, var(--gold-pure), var(--gold-shimmer));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 8px 0;
+      line-height: 1.3;
+    }
 
-    .fn-row { display:flex; flex-wrap:wrap; gap:0.4rem; justify-content:center; margin-bottom:0.75rem; }
-    .fn-pill { background:var(--maroon); color:#F5E8C0; font-size:0.8rem; padding:0.25rem 0.8rem; border-radius:100px; font-style:italic; }
+    .host-highlight {
+      background: linear-gradient(135deg, var(--gold-pure), var(--gold-shimmer));
+      color: var(--deep-maroon);
+      padding: 6px 16px;
+      border-radius: 50px;
+      display: inline-block;
+      font-weight: bold;
+      margin: 8px 0;
+      font-size: 14px;
+    }
 
-    .hosts-card { text-align:center; background:linear-gradient(135deg,rgba(200,146,42,0.07),rgba(123,31,46,0.05)); border:1px solid rgba(200,146,42,0.28); border-radius:10px; padding:0.9rem 1.1rem; margin-bottom:0.75rem; }
-    .hosts-lbl  { font-size:0.66rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:0.22rem; }
-    .hosts-name { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--maroon); }
+    .detail-row {
+      margin: 10px 0;
+      padding: 10px;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 16px;
+      text-align: left;
+    }
 
-    .blessing-box { text-align:center; font-style:italic; font-size:0.88rem; color:var(--text-muted); line-height:1.75; padding:0.8rem 0.5rem; }
-    .blessing-box .diya { font-size:1.3rem; display:block; margin-bottom:0.35rem; }
+    .detail-label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold-shimmer);
+      margin-bottom: 4px;
+    }
 
-    .s2-back-btn { display:flex; align-items:center; justify-content:center; gap:0.4rem; width:100%; padding:0.65rem; background:transparent; color:var(--gold-dark); border:1px solid var(--gold-border); border-radius:7px; font-family:'Cormorant Garamond',serif; font-size:0.9rem; cursor:pointer; margin-top:0.5rem; transition:background 0.15s; }
-    .s2-back-btn:hover { background:var(--gold-bg); }
+    .detail-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--cream);
+      word-break: break-word;
+    }
 
-    .slide-in { opacity:0; transform:translateX(40px); transition:opacity 0.5s ease, transform 0.5s ease; }
-    .slide-in.visible { opacity:1; transform:translateX(0); }
+    .guest-name {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(212, 175, 55, 0.3);
+      font-size: 13px;
+      color: var(--gold-shimmer);
+    }
 
-    .dots { position:fixed; bottom:1.2rem; left:50%; transform:translateX(-50%); display:flex; gap:0.5rem; z-index:10; }
-    .dot  { width:8px; height:8px; border-radius:50%; background:var(--gold-border); transition:background 0.3s, transform 0.3s; cursor:pointer; }
-    .dot.active { background:var(--maroon); transform:scale(1.35); }
+    /* Navigation - Touch friendly */
+    .dot-nav {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 12px 0;
+      position: fixed;
+      bottom: 60px;
+      left: 0;
+      right: 0;
+      z-index: 210;
+    }
 
-    /* ══════════════════════════════════════
-       SENDER VIEW
-    ══════════════════════════════════════ */
-    #senderView { display:block; }
-    .bg-layer { position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 60% 50% at 10% 15%,rgba(200,146,42,0.07) 0%,transparent 70%),radial-gradient(ellipse 50% 60% at 90% 85%,rgba(123,31,46,0.06) 0%,transparent 70%); }
-    .sender-petals { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: rgba(212, 175, 55, 0.4);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
 
-    .page-wrap { position:relative; z-index:1; max-width:560px; margin:0 auto; padding:1.5rem 1rem 5rem; }
-    .page-header { text-align:center; padding:1.5rem 0 1rem; margin-bottom:1.5rem; }
-    .page-header .om { font-size:2.4rem; color:var(--maroon); animation:omGlow 3s ease-in-out infinite alternate; line-height:1; margin-bottom:0.4rem; }
-    .page-header .sanskrit { font-family:'Noto Serif Devanagari',serif; font-size:0.85rem; color:var(--gold-dark); letter-spacing:0.1em; margin-bottom:0.8rem; }
-    .page-header h1 { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--maroon); line-height:1.2; }
-    .page-header p  { font-size:0.95rem; color:var(--text-muted); margin-top:0.3rem; font-style:italic; }
+    .dot.active {
+      background: var(--gold-pure);
+      transform: scale(1.4);
+    }
 
-    .divider { display:flex; align-items:center; gap:0.7rem; margin:0.5rem 0 1.2rem; }
-    .divider-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
-    .divider-gem  { width:7px; height:7px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; }
+    .nav-btn {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--gold-pure);
+      color: var(--gold-pure);
+      border-radius: 40px;
+      padding: 10px 20px;
+      margin: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      touch-action: manipulation;
+      backdrop-filter: blur(4px);
+    }
 
-    .step-tabs { display:flex; background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius-lg); padding:4px; margin-bottom:1.5rem; gap:4px; }
-    .tab-btn { flex:1; padding:0.6rem 0.5rem; background:transparent; border:none; border-radius:7px; font-family:'Cormorant Garamond',serif; font-size:0.95rem; font-weight:600; color:var(--text-muted); cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:0.4rem; }
-    .tab-btn.active { background:var(--maroon); color:var(--cream); box-shadow:0 2px 10px rgba(123,31,46,0.25); }
-    .tab-btn:not(.active):hover { background:var(--gold-bg); color:var(--text-dark); }
-    .tab-num { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; font-size:0.7rem; font-weight:700; }
-    .tab-btn.active .tab-num { background:rgba(255,255,255,0.25); color:#fff; }
-    .tab-btn:not(.active) .tab-num { background:var(--gold-bg); color:var(--gold-dark); }
+    .flex-between {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
-    .section { display:none; animation:fadeIn 0.25s ease; }
-    .section.active { display:block; }
+    .flex-between .field {
+      flex: 1;
+      min-width: 120px;
+    }
 
-    .card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.4rem 1.4rem 1.2rem; margin-bottom:1rem; box-shadow:var(--shadow); position:relative; overflow:hidden; }
-    .card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
-    .card-title { font-family:'Playfair Display',serif; font-size:0.8rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-dark); margin-bottom:1rem; padding-bottom:0.6rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:0.5rem; }
+    .event-banner {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(0, 0, 0, 0.5));
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 12px;
+      text-align: center;
+      font-size: 12px;
+    }
 
-    .field { margin-bottom:0.9rem; }
-    .field:last-child { margin-bottom:0; }
-    .field label { display:block; font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.35rem; font-family:'Cormorant Garamond',serif; }
-    .field input, .field select, .field textarea { width:100%; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:0.55rem 0.8rem; font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--text-dark); transition:border-color 0.2s, box-shadow 0.2s; appearance:none; }
-    .field input:focus, .field select:focus, .field textarea:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(200,146,42,0.12); }
-    .field select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238B5E1A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 0.8rem center; padding-right:2rem; cursor:pointer; }
-    .field textarea { resize:vertical; min-height:70px; line-height:1.5; }
-    .row2 { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; }
+    /* Contact items */
+    .contact-item {
+      margin: 12px 0;
+      padding: 10px;
+      border-bottom: 1px dashed var(--gold-burnish);
+    }
 
-    .btn-save { width:100%; background:var(--maroon); color:var(--cream); border:none; border-radius:var(--radius); padding:0.8rem; font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; cursor:pointer; letter-spacing:0.04em; margin-top:0.5rem; transition:background 0.2s, transform 0.1s, box-shadow 0.2s; box-shadow:0 3px 12px rgba(123,31,46,0.25); }
-    .btn-save:hover { background:var(--maroon-light); transform:translateY(-1px); }
-    .btn-sm { padding:0.4rem 0.8rem; background:transparent; border:1px solid var(--border); border-radius:var(--radius); font-family:'Cormorant Garamond',serif; font-size:0.88rem; color:var(--text-mid); cursor:pointer; transition:background 0.15s; }
-    .btn-sm:hover { background:var(--gold-bg); border-color:var(--gold); }
+    .contact-item div:first-child {
+      font-size: 14px;
+    }
 
-    .preview-link-btn { display:flex; align-items:center; justify-content:center; gap:0.5rem; width:100%; padding:0.65rem; background:transparent; color:var(--maroon); border:1.5px solid var(--gold-border); border-radius:var(--radius); font-family:'Cormorant Garamond',serif; font-size:0.95rem; cursor:pointer; margin-top:0.6rem; transition:background 0.15s; }
-    .preview-link-btn:hover { background:var(--gold-bg); }
+    .contact-item div:last-child {
+      font-weight: bold;
+      color: var(--gold-shimmer);
+      font-size: 14px;
+      margin-top: 4px;
+    }
 
-    .event-banner { background:linear-gradient(135deg,rgba(200,146,42,0.08),rgba(123,31,46,0.05)); border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.1rem 1.2rem; margin-bottom:1.2rem; display:none; }
-    .event-banner.visible { display:block; animation:fadeIn 0.3s ease; }
-    .eb-ceremony { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--maroon); margin-bottom:0.5rem; }
-    .eb-row { font-size:0.9rem; color:var(--text-mid); margin:0.2rem 0; display:flex; align-items:baseline; gap:0.4rem; }
-    .eb-row span { color:var(--text-dark); font-weight:600; }
-    .eb-edit { margin-top:0.8rem; font-size:0.8rem; color:var(--gold-dark); cursor:pointer; text-decoration:underline; text-underline-offset:2px; background:none; border:none; font-family:inherit; }
+    /* Hide scrollbar but keep functionality */
+    .inviteeListContainer::-webkit-scrollbar {
+      width: 3px;
+    }
 
-    .search-row { display:flex; gap:0.6rem; margin-bottom:0.8rem; }
-    .search-row .field { margin:0; flex:1; }
-    .btn-contacts { display:flex; align-items:center; gap:0.4rem; padding:0.5rem 0.9rem; background:var(--maroon); color:var(--cream); border:none; border-radius:var(--radius); font-family:'Cormorant Garamond',serif; font-size:0.88rem; font-weight:600; cursor:pointer; white-space:nowrap; transition:background 0.15s; }
-    .btn-contacts:hover { background:var(--maroon-light); }
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      #senderView {
+        padding: 12px;
+      }
 
-    .invitee-list { display:flex; flex-direction:column; gap:0.5rem; max-height:400px; overflow-y:auto; padding-right:2px; }
-    .invitee-list::-webkit-scrollbar { width:4px; }
-    .invitee-list::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+      .inv-card {
+        padding: 16px 12px;
+      }
 
-    .empty-msg { text-align:center; padding:2rem 1rem; color:var(--text-muted); font-size:0.95rem; font-style:italic; }
-    .empty-msg .em-icon { font-size:2rem; margin-bottom:0.5rem; display:block; }
+      .child-name-lg {
+        font-size: 1.2rem;
+      }
 
-    .inv-row { display:flex; align-items:center; gap:0.75rem; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:0.65rem 0.8rem; transition:border-color 0.15s, box-shadow 0.15s; }
-    .inv-row:hover { border-color:var(--gold); box-shadow:0 2px 8px rgba(200,146,42,0.1); }
-    .avatar { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--gold-bg),rgba(123,31,46,0.08)); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:0.85rem; font-weight:700; color:var(--maroon); flex-shrink:0; }
-    .inv-info { flex:1; min-width:0; }
-    .inv-name  { font-size:0.98rem; font-weight:600; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .inv-phone { font-size:0.8rem; color:var(--text-muted); margin-top:0.1rem; }
-    .inv-actions { display:flex; gap:0.4rem; flex-shrink:0; }
-    .btn-wa { display:flex; align-items:center; gap:0.3rem; padding:0.35rem 0.65rem; background:#25D366; color:#fff; border:none; border-radius:var(--radius); font-family:'Cormorant Garamond',serif; font-size:0.85rem; font-weight:600; cursor:pointer; transition:opacity 0.15s; }
-    .btn-wa:hover { opacity:0.88; }
-    .btn-wa.sent { background:#128C7E; }
-    .btn-rm { padding:0.35rem 0.55rem; background:transparent; border:1px solid var(--border); border-radius:var(--radius); color:var(--text-muted); cursor:pointer; font-size:0.85rem; transition:all 0.15s; }
-    .btn-rm:hover { background:#fef2f2; border-color:#fca5a5; color:#dc2626; }
-    .sent-pill { display:inline-flex; align-items:center; gap:0.2rem; font-size:0.7rem; font-weight:600; background:#dcfce7; color:#15803d; padding:0.1rem 0.45rem; border-radius:100px; margin-left:0.35rem; vertical-align:middle; }
+      .host-name-large {
+        font-size: 1.4rem;
+      }
 
-    .manual-row { display:flex; gap:0.5rem; align-items:flex-end; margin-top:0.9rem; padding-top:0.9rem; border-top:1px dashed var(--border); }
-    .manual-row .f-name  { flex:0 0 38%; }
-    .manual-row .f-phone { flex:1; }
-    .manual-row input { margin-bottom:0; }
+      .ganesh-image {
+        width: 85px;
+        height: 85px;
+      }
 
-    .send-bar { display:none; align-items:center; justify-content:space-between; background:var(--white); border:1px solid var(--border); border-radius:var(--radius-lg); padding:0.8rem 1.1rem; margin-top:0.9rem; box-shadow:var(--shadow); }
-    .send-bar.visible { display:flex; }
-    .send-count { font-size:0.95rem; color:var(--text-mid); }
-    .send-count strong { color:var(--maroon); font-size:1.1rem; }
-    .btn-send-all { display:flex; align-items:center; gap:0.5rem; padding:0.55rem 1.2rem; background:#128C7E; color:#fff; border:none; border-radius:var(--radius); font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:700; cursor:pointer; transition:opacity 0.15s; }
-    .btn-send-all:hover { opacity:0.88; }
+      .detail-value {
+        font-size: 13px;
+      }
 
-    .notice { font-size:0.82rem; color:var(--text-muted); margin-top:0.6rem; padding:0.6rem 0.9rem; background:rgba(200,146,42,0.05); border-left:2px solid var(--gold); border-radius:0 var(--radius) var(--radius) 0; line-height:1.5; }
+      .nav-btn {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
 
-    footer { text-align:center; padding:2rem 1rem; font-size:0.78rem; color:var(--text-muted); font-style:italic; }
+      .btn-save,
+      .btn-send-all,
+      .preview-btn {
+        padding: 12px;
+        font-size: 15px;
+      }
+    }
 
-    @media (max-width:440px) {
-      .row2 { grid-template-columns:1fr; }
-      .manual-row { flex-wrap:wrap; }
-      .manual-row .f-name, .manual-row .f-phone { flex:0 0 100%; }
-      .detail-grid { grid-template-columns:1fr; }
+    @media (max-width: 380px) {
+      .inv-row {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+
+      .btn-wa {
+        width: 100%;
+      }
+    }
+
+    /* Loading state */
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    /* Smooth transitions */
+    a, button {
+      transition: all 0.2s ease;
     }
   </style>
 </head>
 <body>
 
-<!-- ════════════ INVITATION VIEW ════════════ -->
-<div id="invView">
-  <div class="inv-bg" aria-hidden="true"></div>
-  <div class="inv-petals-wrap" id="invPetals" aria-hidden="true"></div>
+<div class="petal-cloud" id="petalContainer"></div>
 
-  <div class="slides-wrap">
-    <!-- SLIDE 1 -->
-    <div class="slide s1" id="slide1">
-      <div class="s1-inner">
-        <span class="s1-diya" aria-hidden="true">🪔</span>
-        <div class="s1-om" aria-label="Om">🕉</div>
-        <div class="s1-sanskrit">ॐ श्री गणेशाय नमः</div>
-        <div class="s1-card">
-          <span class="corner-gem tl" aria-hidden="true">✦</span>
-          <span class="corner-gem tr" aria-hidden="true">✦</span>
-          <span class="corner-gem bl" aria-hidden="true">✦</span>
-          <span class="corner-gem br" aria-hidden="true">✦</span>
-          <div class="s1-invite-lbl">With heartfelt joy, we invite</div>
-          <div class="s1-guest" id="guestName">Dear Guest</div>
-          <div class="s1-guest-sub">to bless this auspicious occasion</div>
-          <div class="s1-div"><div class="s1-div-line"></div><div class="s1-div-gem"></div><div class="s1-div-line"></div></div>
-          <div class="s1-cer-lbl">For the sacred</div>
-          <div class="s1-cer-name" id="ceremonyName">Mundan Ceremony</div>
-          <div class="s1-cer-sub"  id="ceremonySub">First Sacred Hair Offering</div>
-          <div class="s1-child-box">
-            <div class="s1-child-lbl">Of our beloved child</div>
-            <div class="s1-child-name" id="childNameS1">—</div>
-            <div class="s1-child-dev"  id="childDevS1" style="display:none"></div>
-          </div>
-          <button class="s1-next-btn" onclick="goSlide2()">
-            View Details &nbsp;<span class="s1-next-arr" aria-hidden="true">→</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 2 -->
-    <div class="slide s2" id="slide2">
-      <div class="s2-inner">
-        <div class="s2-header">
-          <div class="s2-header-title" id="s2Title">Event Details</div>
-          <div class="s2-header-sub"   id="s2Sub">Everything you need to know</div>
-        </div>
-
-        <div class="detail-grid">
-          <div class="detail-card slide-in" style="transition-delay:0s">
-            <span class="dc-icon">📅</span>
-            <div class="dc-label">Date</div>
-            <div class="dc-value" id="detailDate">—</div>
-          </div>
-          <div class="detail-card slide-in" style="transition-delay:0.08s">
-            <span class="dc-icon">🕐</span>
-            <div class="dc-label">Time</div>
-            <div class="dc-value" id="detailTime">—</div>
-            <div class="dc-sub" id="detailMuhurt" style="display:none"></div>
-          </div>
-        </div>
-
-        <div class="detail-card slide-in" style="transition-delay:0.15s">
-          <span class="dc-icon">📍</span>
-          <div class="dc-label">Venue</div>
-          <div class="dc-value" id="detailVenue">—</div>
-          <div class="dc-sub"   id="detailAddress" style="display:none"></div>
-        </div>
-
-        <div class="fn-row slide-in" id="fnRow" style="transition-delay:0.22s"></div>
-
-        <div class="hosts-card slide-in" style="transition-delay:0.28s">
-          <div class="hosts-lbl">Hosted with Love by</div>
-          <div class="hosts-name" id="detailHosts">The Family</div>
-        </div>
-
-        <div class="detail-card slide-in" id="extraCard" style="display:none;transition-delay:0.33s">
-          <span class="dc-icon">📝</span>
-          <div class="dc-label">Note</div>
-          <div class="dc-value" id="detailExtra" style="font-family:'Cormorant Garamond',serif;font-size:0.98rem;font-weight:400"></div>
-        </div>
-
-        <div class="blessing-box">
-          <span class="diya" aria-hidden="true">🌸</span>
-          "May the blessings of Lord Ganesha shower upon the little one.<br>
-          Your presence will make this day truly divine."
-        </div>
-
-        <button class="s2-back-btn" onclick="goSlide1()">← Back</button>
-      </div>
-    </div>
+<!-- SENDER PANEL -->
+<div id="senderView">
+  <div style="text-align: center; margin-bottom: 16px;">
+    <div class="om-symbol">🕉️</div>
+    <h1 style="font-size: 1.3rem; margin-top: 4px;">Puja Invitation Studio</h1>
+    <p style="color: var(--gold-shimmer); font-size: 12px;">Create & Send Sacred Invitations</p>
   </div>
 
-  <div class="dots">
-    <div class="dot active" id="dot1" onclick="goSlide1()" title="Slide 1"></div>
-    <div class="dot"        id="dot2" onclick="goSlide2()" title="Slide 2"></div>
+  <div class="step-tabs">
+    <button class="tab-btn active" onclick="switchTab('setup')">1. Ceremony</button>
+    <button class="tab-btn" onclick="switchTab('send')">2. Invitees</button>
+  </div>
+
+  <div id="setupSection">
+    <div class="card">
+      <div class="card-title">✨ Ceremony Details</div>
+      <div class="field"><label>Host Family Name *</label><input type="text" id="hostFamily" placeholder="e.g. Sharma Family" value="Ramdeo Yadav"></div>
+      <div class="field"><label>Ceremony Type</label>
+        <select id="ceremonySelect">
+          <option value="Mundan Sanskar">Mundan Sanskar (Hair Tonsure)</option>
+          <option value="Annaprashan">Annaprashan (First Rice)</option>
+          <option value="Namkaran">Namkaran (Naming)</option>
+          <option value="Upanayana">Upanayana (Janeu)</option>
+        </select>
+      </div>
+      <div class="field"><label>Child's Name *</label><input type="text" id="childName" placeholder="e.g. Aarav Sharma"></div>
+      <div class="field"><label>Child's Name (Hindi)</label><input type="text" id="childHindi" placeholder="आरव शर्मा"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📅 Date, Time & Venue</div>
+      <div class="flex-between">
+        <div class="field"><label>Date *</label><input type="date" id="eventDate"></div>
+        <div class="field"><label>Time</label><input type="time" id="eventTime"></div>
+      </div>
+      <div class="field"><label>Venue Name *</label><input type="text" id="venueName" placeholder="Shri Ram Mandap"></div>
+      <div class="field"><label>Full Address</label><input type="text" id="venueAddress" placeholder="सुरहरीडीह, गाँव: सुरहरीडीह टोला: तेलकाठू जिला: सिवान"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">👪 Hosted By</div>
+      <div class="field"><label>Parents/Hosts Name</label><input type="text" id="hosts" placeholder="Mr. & Mrs. Rajesh Sharma" value="Ramdeo Yadav"></div>
+    </div>
+
+    <button class="btn-save" onclick="saveEventData()">💾 Save Ceremony Details</button>
+    <button class="preview-btn" id="previewBtn" style="display:none;" onclick="openPreview()">✨ Preview Invitation Card</button>
+  </div>
+
+  <div id="sendSection" style="display:none;">
+    <div id="savedEventBanner" class="event-banner" style="display:none;">
+      <div id="bannerText">No ceremony saved yet</div>
+      <button class="preview-btn" style="margin-top: 8px; padding: 8px;" onclick="switchTab('setup')">Edit Ceremony</button>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">📿 Invitees (WhatsApp)</div>
+      <div id="inviteeListContainer" style="max-height: 280px; overflow-y: auto; margin: 8px 0;"></div>
+      <div class="flex-between">
+        <div class="field" style="flex:2"><input type="text" id="manualName" placeholder="Guest name"></div>
+        <div class="field" style="flex:2"><input type="tel" id="manualPhone" placeholder="+91 98765 43210"></div>
+        <button class="btn-save" style="width: auto; margin: 0; padding: 0 16px;" onclick="addGuest()">+ Add</button>
+      </div>
+      <button class="preview-btn" style="margin-top: 8px;" onclick="pickContacts()">📇 Pick from Phone Contacts</button>
+    </div>
+    <div id="sendBar" style="display: none;">
+      <div class="notice" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <span>📨 <span id="totalCount">0</span> guests</span>
+        <button class="btn-send-all" style="width: auto; padding: 8px 20px;" onclick="sendAllInvites()">Send All</button>
+      </div>
+    </div>
   </div>
 </div>
 
-
-<!-- ════════════ SENDER VIEW ════════════ -->
-<div id="senderView">
-  <div class="bg-layer" aria-hidden="true"></div>
-  <div class="sender-petals" id="senderPetals" aria-hidden="true"></div>
-
-  <div class="page-wrap">
-    <header class="page-header">
-      <div class="om" role="img" aria-label="Om">🕉</div>
-      <div class="sanskrit">ॐ श्री गणेशाय नमः</div>
-      <h1>Puja Invitation Sender</h1>
-      <p>Set up once · Send to everyone · Via WhatsApp</p>
-    </header>
-
-    <div class="divider"><div class="divider-line"></div><div class="divider-gem"></div><div class="divider-line"></div></div>
-
-    <div class="step-tabs" role="tablist">
-      <button class="tab-btn active" role="tab" aria-selected="true"  aria-controls="setupSection" onclick="switchTab('setup')"><span class="tab-num">1</span> Event Setup</button>
-      <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="sendSection"  onclick="switchTab('send')"><span class="tab-num">2</span> Send Invites</button>
+<!-- INVITATION VIEW - 3 SLIDES -->
+<div id="invView">
+  <div class="slides-container">
+    <!-- SLIDE 1 -->
+    <div class="slide slide1" id="slide1">
+      <div class="inv-card">
+        <div class="ganesh-image">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="95" fill="#d4af37" stroke="#b68b2c" stroke-width="3"/>
+            <ellipse cx="100" cy="110" rx="55" ry="50" fill="#f5e18b"/>
+            <circle cx="100" cy="65" r="35" fill="#f5e18b"/>
+            <ellipse cx="60" cy="65" rx="18" ry="25" fill="#d4af37" stroke="#b68b2c" stroke-width="1.5"/>
+            <ellipse cx="140" cy="65" rx="18" ry="25" fill="#d4af37" stroke="#b68b2c" stroke-width="1.5"/>
+            <path d="M100 90 Q100 110 115 115 Q125 118 120 110" stroke="#b68b2c" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <circle cx="85" cy="60" r="4" fill="#4a0b18"/>
+            <circle cx="115" cy="60" r="4" fill="#4a0b18"/>
+            <circle cx="100" cy="48" r="6" fill="#e74c3c"/>
+            <text x="100" y="140" text-anchor="middle" font-size="24" fill="#d4af37" font-family="serif" font-weight="bold">ॐ</text>
+          </svg>
+        </div>
+        <div style="font-family: 'Noto Serif Devanagari'; font-size: 14px; color: var(--gold-shimmer);" id="invHeading">परिवार आपको आमंत्रित करते हैं</div>
+        <div class="host-name-large" id="hostNameLarge">Ramdeo Yadav</div>
+        <div style="margin: 8px 0;"><div style="height:1px; background:linear-gradient(90deg,transparent,var(--gold-pure),transparent);"></div></div>
+        <div id="quote1" style="font-style: italic; font-size: 14px;">"जीवन का सत्य प्रेम और समर्पण में है"</div>
+        <button class="nav-btn" onclick="nextSlide()" style="margin-top: 16px;">View Details →</button>
+      </div>
     </div>
 
-    <!-- TAB 1: SETUP -->
-    <section class="section active" id="setupSection" role="tabpanel">
-      <div class="card">
-        <div class="card-title">✨ Ceremony Details</div>
-        <div class="field">
-          <label>Ceremony Type</label>
-          <select id="s_cer">
-            <option value="सत्ताईसा">सत्ताईसा</option>
-            <option value="annaprashan">Annaprashan — First Rice Feeding</option>
-            <option value="namkaran">Namkaran — Naming Ceremony</option>
-            <option value="upanayana">Upanayana — Sacred Thread Ceremony</option>
-            <option value="karnavedha">Karnavedha — Ear Piercing</option>
-            <option value="birthday">First Birthday Puja</option>
-          </select>
+    <!-- SLIDE 2 - All Ceremony Info -->
+    <div class="slide slide2" id="slide2">
+      <div class="inv-card">
+        <div style="font-size: 28px;">🌸🙏</div>
+        <div class="child-name-lg" id="invChildName">Baby's Name</div>
+        <div class="host-highlight" id="hostHighlight">Ramdeo Yadav</div>
+        
+        <div class="detail-row">
+          <div class="detail-label">🎊 CEREMONY</div>
+          <div class="detail-value" id="invCeremony">Sacred Ceremony</div>
         </div>
-        <div class="field"><label>Child's Name</label><input type="text" id="s_name" placeholder="e.g. Aarav Sharma" autocomplete="off"></div>
-        <div class="field"><label>Child's Name in Hindi <em style="text-transform:none;font-size:0.75rem">(optional)</em></label><input type="text" id="s_hindi" placeholder="e.g. आरव शर्मा"></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">📅 Date, Time & Venue</div>
-        <div class="row2">
-          <div class="field"><label>Date</label><input type="date" id="s_date"></div>
-          <div class="field"><label>Time</label><input type="time" id="s_time"></div>
+        
+        <div class="detail-row">
+          <div class="detail-label">📅 DATE</div>
+          <div class="detail-value" id="invDate">Loading...</div>
         </div>
-        <div class="field"><label>Muhurt Note <em style="text-transform:none;font-size:0.75rem">(optional)</em></label><input type="text" id="s_muhurt" placeholder="e.g. 10:00–11:30 AM Shubh Muhurt"></div>
-        <div class="field"><label>Venue Name</label><input type="text" id="s_venue" placeholder="e.g. Shri Ram Community Hall"></div>
-        <div class="field"><label>Full Address</label><input type="text" id="s_address" placeholder="12 Puja Lane, Varanasi, UP"></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">👨‍👩‍👧 Host Details</div>
-        <div class="field"><label>Hosted By</label><input type="text" id="s_hosts" placeholder="e.g. Ram & Sita Sharma"></div>
-        <div class="field"><label>Extra Note <em style="text-transform:none;font-size:0.75rem">(optional)</em></label><textarea id="s_extra" placeholder="e.g. Lunch will be served. Please come with family."></textarea></div>
-      </div>
-
-      <button class="btn-save" onclick="saveSetup()">✅ Save & Go to Send Invites →</button>
-      <button class="preview-link-btn" id="previewCardBtn" style="display:none" onclick="previewCard()">👁 Preview animated invitation card</button>
-    </section>
-
-    <!-- TAB 2: SEND -->
-    <section class="section" id="sendSection" role="tabpanel">
-      <div class="event-banner" id="eventBanner">
-        <div class="eb-ceremony" id="ebCeremony">—</div>
-        <div class="eb-row"><span>👶</span><span id="ebName">—</span></div>
-        <div class="eb-row"><span>📅</span><span id="ebDate">—</span></div>
-        <div class="eb-row"><span>🕐</span><span id="ebTime">—</span></div>
-        <div class="eb-row"><span>📍</span><span id="ebVenue">—</span></div>
-        <button class="eb-edit" onclick="switchTab('setup')">✏️ Edit event details</button>
-      </div>
-
-      <div class="card">
-        <div class="card-title">📋 Invitees</div>
-        <div class="search-row">
-          <div class="field"><input type="text" id="searchInput" placeholder="Search added invitees…" oninput="renderList()" autocomplete="off"></div>
-          <button class="btn-contacts" onclick="pickFromContacts()">📱 Contacts</button>
+        
+        <div class="detail-row">
+          <div class="detail-label">🕘 TIME</div>
+          <div class="detail-value" id="invTime">Loading...</div>
         </div>
-        <div class="invitee-list" id="inviteeList">
-          <div class="empty-msg"><span class="em-icon">🙏</span>No invitees yet.<br>Use Contacts or add manually below.</div>
+        
+        <div class="detail-row">
+          <div class="detail-label">📍 VENUE</div>
+          <div class="detail-value" id="invVenue">Loading...</div>
         </div>
-        <div class="manual-row">
-          <div class="field f-name"  style="margin:0"><label>Name</label><input type="text" id="m_name" placeholder="Guest name" autocomplete="off"></div>
-          <div class="field f-phone" style="margin:0"><label>Phone (with country code)</label><input type="tel" id="m_phone" placeholder="+91 98765 43210"></div>
-          <div style="padding-top:1.3rem"><button class="btn-sm" onclick="addManual()">+ Add</button></div>
+        
+        <div class="detail-row">
+          <div class="detail-label">🏠 FULL ADDRESS</div>
+          <div class="detail-value" id="invAddress">Loading...</div>
+        </div>
+        
+        <div class="detail-row">
+          <div class="detail-label">👪 HOSTED BY</div>
+          <div class="detail-value" id="invHosts">Loading...</div>
+        </div>
+        
+        <div class="guest-name" id="guestNameDisplay"></div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 16px; justify-content: center;">
+          <button class="nav-btn" onclick="prevSlide()">← Back</button>
+          <button class="nav-btn" onclick="nextSlide()">Contact →</button>
         </div>
       </div>
+    </div>
 
-      <div class="send-bar" id="sendBar">
-        <div class="send-count">Ready for <strong id="invCount">0</strong> guests</div>
-        <button class="btn-send-all" onclick="sendAll()">📲 Send All on WhatsApp</button>
+    <!-- SLIDE 3 - Contact -->
+    <div class="slide slide3" id="slide3">
+      <div class="inv-card">
+        <div style="font-size: 32px;">📞✨</div>
+        <h3 style="color: var(--gold-pure); font-size: 18px; margin: 8px 0;">Create Your Own Invitation</h3>
+        <div style="margin-bottom: 12px; font-size: 12px;">Custom designs for weddings, pujas, and celebrations</div>
+        <div class="contact-item">
+          <div>📱 WhatsApp</div>
+          <div>+91 76784 88245</div>
+        </div>
+        <div class="contact-item">
+          <div>📧 Email</div>
+          <div>rimpyyadav353@gmail.com</div>
+        </div>
+        <div class="contact-item">
+          <div>🌐 Website</div>
+          <div>https://rimpy-portfolio.vercel.app/</div>
+        </div>
+        <button class="btn-save" onclick="window.open('https://wa.me/917678488245?text=Hi!%20I%20want%20a%20custom%20invitation','_blank')" style="margin-top: 8px;">📲 Connect on WhatsApp</button>
+        <button class="nav-btn" onclick="prevSlide()" style="margin-top: 12px;">← Back</button>
       </div>
-
-      <div class="notice" id="sendNotice" style="display:none">
-        Each guest gets a personalised WhatsApp message with a link to their own beautiful animated invitation card — addressed by their name.
-      </div>
-      <div class="notice" style="margin-top:0.8rem">🔒 <strong>Privacy:</strong> Everything stays on your device. Zero servers, zero tracking.</div>
-    </section>
+    </div>
   </div>
-
-  <footer>🕉 &nbsp;Shubh Karyam Bhavatu &nbsp;·&nbsp; Made with 🙏 for your auspicious occasions</footer>
+  
+  <div class="dot-nav">
+    <div class="dot active" onclick="goToSlide(1)"></div>
+    <div class="dot" onclick="goToSlide(2)"></div>
+    <div class="dot" onclick="goToSlide(3)"></div>
+  </div>
+  
+  <button class="nav-btn" onclick="closeInvitation()" style="position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 210; background: rgba(0,0,0,0.6);">Close</button>
 </div>
 
 <script>
-/* ═══════════════════════════════════
-   CEREMONIES
-═══════════════════════════════════ */
-const CEREMONIES = {
-  सत्ताईसा:      {title:'सत्ताईसा',      subtitle:'First Sacred',  prose:'सत्ताईसा',      fns:['Ganesh Puja','सत्ताईसा','Yagya','Blessings','Lunch']},
-  annaprashan: {title:'Annaprashan Ceremony', subtitle:'First Rice Feeding Ritual',    prose:'Annaprashan Sanskar', fns:['Ganesh Puja','Annaprashan Vidhi','Blessings','Feast']},
-  namkaran:    {title:'Namkaran Ceremony',    subtitle:'Sacred Naming Ritual',         prose:'Namkaran Sanskar',    fns:['Ganesh Puja','Namkaran Vidhi','Celebration','Mithai']},
-  upanayana:   {title:'Upanayana Ceremony',   subtitle:'Sacred Thread Ceremony',       prose:'Upanayana Sanskar',   fns:['Ganesh Puja','Yagnopavit Vidhi','Yagya','Prasad']},
-  karnavedha:  {title:'Karnavedha Ceremony',  subtitle:'Sacred Ear Piercing Ritual',   prose:'Karnavedha Sanskar',  fns:['Ganesh Puja','Karnavedha Vidhi','Blessings','Lunch']},
-  birthday:    {title:'First Birthday Puja',  subtitle:'Celebrating One Blessed Year', prose:'Birthday Puja',       fns:['Ganesh Puja','Satyanarayan Katha','Cake Cutting','Lunch']},
-};
+  // All JavaScript remains the same as previous version
+  let eventConfig = null;
+  let guests = [];
+  let nextId = 1;
+  let sentIds = new Set();
+  let currentSlide = 1;
 
-/* ═══════════════════════════════════
-   STATE
-═══════════════════════════════════ */
-let eventData = null;
-let invitees  = [];
-let sentIds   = new Set();
-let nextId    = 1;
-let onSlide2  = false;
-
-/* ═══════════════════════════════════
-   HELPERS
-═══════════════════════════════════ */
-function fmtDate(d){ if(!d)return''; return new Date(d+'T00:00:00').toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'}); }
-function fmtTime(t){ if(!t)return''; const[h,m]=t.split(':').map(Number); return `${h%12||12}:${String(m).padStart(2,'0')} ${h>=12?'PM':'AM'}`; }
-function initials(n){ return n.trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?'; }
-function cleanPhone(p){ return p.replace(/[\s\-\(\)]/g,''); }
-function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-/* ═══════════════════════════════════
-   URL / ROUTING
-═══════════════════════════════════ */
-function getParams(){
-  const s=window.location.search||'';
-  const h=window.location.hash||'';
-  const qi=h.indexOf('?');
-  const qs=s?s.slice(1):(qi!==-1?h.slice(qi+1):'');
-  return qs?Object.fromEntries(new URLSearchParams(qs)):{};
-}
-function buildInviteURL(guestName){
-  if(!eventData)return window.location.href;
-  const p=new URLSearchParams({view:'1',g:guestName,c:eventData.cer,n:eventData.name,hn:eventData.hindi||'',dt:eventData.date||'',tm:eventData.time||'',mu:eventData.muhurt||'',v:eventData.venue||'',a:eventData.address||'',h:eventData.hosts||'',ex:eventData.extra||''});
-  return `${window.location.origin}${window.location.pathname}?${p.toString()}`;
-}
-function buildWAMessage(guestName){
-  if(!eventData)return'';
-  const c=CEREMONIES[eventData.cer]||CEREMONIES.mundan;
-  const url=buildInviteURL(guestName);
-  const lines=[
-    `🕉 *Namaskar ${guestName}! 🙏*`,``,
-    `We joyfully invite you to the auspicious *${c.prose}* of our beloved child,`,
-    `✨ *${eventData.name}*${eventData.hindi?' ('+eventData.hindi+')':''}`,``,
-    `📅 *Date:* ${fmtDate(eventData.date)}`,
-  ];
-  if(eventData.time)  lines.push(`🕐 *Time:* ${fmtTime(eventData.time)}${eventData.muhurt?' ('+eventData.muhurt+')':''}`);
-  if(eventData.venue) lines.push(`📍 *Venue:* ${eventData.venue}${eventData.address?', '+eventData.address:''}`);
-  if(eventData.hosts) lines.push(`👨‍👩‍👧 *Hosted by:* ${eventData.hosts}`);
-  if(eventData.extra){lines.push('');lines.push(eventData.extra);}
-  lines.push('');
-  lines.push(`🌸 *Open your personalised invitation:*`);
-  lines.push(url);
-  lines.push('');
-  lines.push(`Your presence will make this day truly divine. 🙏`);
-  return lines.join('\n');
-}
-
-/* ═══════════════════════════════════
-   INVITATION VIEW
-═══════════════════════════════════ */
-function initInvView(p){
-  document.getElementById('senderView').style.display='none';
-  document.getElementById('invView').classList.add('active');
-  const c=CEREMONIES[p.c]||CEREMONIES.mundan;
-
-  // Slide 1
-  document.getElementById('guestName').textContent   = p.g?'Dear '+p.g:'Dear Guest';
-  document.getElementById('ceremonyName').textContent = c.title;
-  document.getElementById('ceremonySub').textContent  = c.subtitle;
-  document.getElementById('childNameS1').textContent  = p.n||'—';
-  if(p.hn){document.getElementById('childDevS1').textContent=p.hn;document.getElementById('childDevS1').style.display='block';}
-
-  // Slide 2
-  document.getElementById('s2Title').textContent   = c.title;
-  document.getElementById('s2Sub').textContent      = c.subtitle;
-  document.getElementById('detailDate').textContent = p.dt?fmtDate(p.dt):'—';
-  document.getElementById('detailTime').textContent = p.tm?fmtTime(p.tm):'—';
-  if(p.mu){const e=document.getElementById('detailMuhurt');e.textContent=p.mu;e.style.display='block';}
-  document.getElementById('detailVenue').textContent=p.v||'—';
-  if(p.a){const e=document.getElementById('detailAddress');e.textContent=p.a;e.style.display='block';}
-  document.getElementById('detailHosts').textContent=p.h||'The Family';
-  if(p.ex){const e=document.getElementById('extraCard');e.style.display='block';document.getElementById('detailExtra').textContent=p.ex;}
-
-  // Function badges
-  const fnRow=document.getElementById('fnRow');
-  c.fns.forEach(f=>{const s=document.createElement('span');s.className='fn-pill';s.textContent=f;fnRow.appendChild(s);});
-
-  document.title=(p.n||'Puja')+' — '+c.title+' Invitation';
-  spawnPetals('invPetals');
-  initSwipe();
-}
-
-/* ═══════════════════════════════════
-   SLIDE NAVIGATION
-═══════════════════════════════════ */
-function goSlide2(){
-  if(onSlide2)return;
-  onSlide2=true;
-  document.getElementById('slide1').classList.add('gone');
-  document.getElementById('slide2').classList.add('here');
-  document.getElementById('dot1').classList.remove('active');
-  document.getElementById('dot2').classList.add('active');
-  setTimeout(()=>{ document.querySelectorAll('.slide-in').forEach(el=>el.classList.add('visible')); },120);
-}
-function goSlide1(){
-  if(!onSlide2)return;
-  onSlide2=false;
-  document.getElementById('slide1').classList.remove('gone');
-  document.getElementById('slide2').classList.remove('here');
-  document.getElementById('dot1').classList.add('active');
-  document.getElementById('dot2').classList.remove('active');
-  document.querySelectorAll('.slide-in').forEach(el=>el.classList.remove('visible'));
-}
-function initSwipe(){
-  let sx=null;
-  const wrap=document.querySelector('.slides-wrap');
-  wrap.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
-  wrap.addEventListener('touchend',e=>{
-    if(sx===null)return;
-    const dx=e.changedTouches[0].clientX-sx;
-    if(Math.abs(dx)>50){dx<0?goSlide2():goSlide1();}
-    sx=null;
-  },{passive:true});
-}
-
-/* ═══════════════════════════════════
-   PETALS
-═══════════════════════════════════ */
-function spawnPetals(id){
-  const emojis=['🌸','🌺','🌼','🪷','✿','❀'];
-  const c=document.getElementById(id);
-  if(!c)return;
-  for(let i=0;i<22;i++){
-    const el=document.createElement('span');
-    el.className='petal';
-    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
-    el.style.cssText=`left:${Math.random()*100}%;font-size:${0.7+Math.random()*0.9}rem;animation-duration:${9+Math.random()*14}s;animation-delay:${Math.random()*20}s`;
-    c.appendChild(el);
+  function loadSavedData() {
+    const saved = localStorage.getItem("pujaInvitationData");
+    if(saved) {
+      try {
+        const data = JSON.parse(saved);
+        eventConfig = data.eventConfig;
+        guests = data.guests || [];
+        nextId = data.nextId || 1;
+        sentIds = new Set(data.sentIds || []);
+        
+        if(eventConfig) {
+          document.getElementById("hostFamily").value = eventConfig.hostFamily || "";
+          document.getElementById("ceremonySelect").value = eventConfig.ceremony || "Mundan Sanskar";
+          document.getElementById("childName").value = eventConfig.childName || "";
+          document.getElementById("childHindi").value = eventConfig.childHindi || "";
+          document.getElementById("eventDate").value = eventConfig.date || "";
+          document.getElementById("eventTime").value = eventConfig.time || "";
+          document.getElementById("venueName").value = eventConfig.venue || "";
+          document.getElementById("venueAddress").value = eventConfig.address || "";
+          document.getElementById("hosts").value = eventConfig.hosts || "";
+          document.getElementById("previewBtn").style.display = "flex";
+          updateBanner();
+        }
+        renderInviteeList();
+      } catch(e) { console.log("Error loading data"); }
+    }
   }
-}
 
-/* ═══════════════════════════════════
-   SENDER: TABS
-═══════════════════════════════════ */
-function switchTab(t){
-  document.querySelectorAll('.tab-btn').forEach(b=>{
-    const a=b.getAttribute('aria-controls')===t+'Section';
-    b.classList.toggle('active',a);
-    b.setAttribute('aria-selected',a);
-  });
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(t+'Section').classList.add('active');
-  if(t==='send')renderBanner();
-}
-
-/* ═══════════════════════════════════
-   SENDER: SETUP
-═══════════════════════════════════ */
-function saveSetup(){
-  const name=document.getElementById('s_name').value.trim();
-  const cer =document.getElementById('s_cer').value;
-  const date=document.getElementById('s_date').value;
-  const venue=document.getElementById('s_venue').value.trim();
-  if(!name){alert("Please enter the child's name.");return;}
-  if(!date){alert('Please select the ceremony date.');return;}
-  if(!venue){alert('Please enter the venue name.');return;}
-  eventData={cer,name,
-    hindi:  document.getElementById('s_hindi').value.trim(),
-    date,time:document.getElementById('s_time').value,
-    muhurt: document.getElementById('s_muhurt').value.trim(),
-    venue,address:document.getElementById('s_address').value.trim(),
-    hosts:  document.getElementById('s_hosts').value.trim(),
-    extra:  document.getElementById('s_extra').value.trim(),
-  };
-  document.getElementById('previewCardBtn').style.display='flex';
-  switchTab('send');
-}
-function previewCard(){
-  if(!eventData)return;
-  window.open(buildInviteURL('You'),'_blank');
-}
-
-/* ═══════════════════════════════════
-   SENDER: BANNER
-═══════════════════════════════════ */
-function renderBanner(){
-  if(!eventData){document.getElementById('eventBanner').classList.remove('visible');return;}
-  const c=CEREMONIES[eventData.cer]||CEREMONIES.mundan;
-  document.getElementById('ebCeremony').textContent=c.title;
-  document.getElementById('ebName').textContent=eventData.name+(eventData.hindi?' ('+eventData.hindi+')':'');
-  document.getElementById('ebDate').textContent=fmtDate(eventData.date);
-  document.getElementById('ebTime').textContent=fmtTime(eventData.time)+(eventData.muhurt?' · '+eventData.muhurt:'');
-  document.getElementById('ebVenue').textContent=eventData.venue+(eventData.address?', '+eventData.address:'');
-  document.getElementById('eventBanner').classList.add('visible');
-}
-
-/* ═══════════════════════════════════
-   SENDER: INVITEE LIST
-═══════════════════════════════════ */
-function renderList(){
-  const container=document.getElementById('inviteeList');
-  const filter=document.getElementById('searchInput').value.toLowerCase().trim();
-  const sendBar=document.getElementById('sendBar');
-  const notice=document.getElementById('sendNotice');
-  const shown=filter?invitees.filter(i=>i.name.toLowerCase().includes(filter)):invitees;
-  if(invitees.length===0){
-    container.innerHTML='<div class="empty-msg"><span class="em-icon">🙏</span>No invitees yet.<br>Use Contacts or add manually below.</div>';
-    sendBar.classList.remove('visible');notice.style.display='none';return;
+  function saveAllData() {
+    const data = { eventConfig, guests, nextId, sentIds: Array.from(sentIds) };
+    localStorage.setItem("pujaInvitationData", JSON.stringify(data));
   }
-  sendBar.classList.add('visible');notice.style.display='block';
-  document.getElementById('invCount').textContent=invitees.length;
-  container.innerHTML='';
-  if(shown.length===0){container.innerHTML=`<div class="empty-msg" style="padding:1rem">No matches for "${escHtml(filter)}"</div>`;return;}
-  shown.forEach(inv=>{
-    const isSent=sentIds.has(inv.id);
-    const div=document.createElement('div');
-    div.className='inv-row';
-    div.innerHTML=`
-      <div class="avatar">${initials(inv.name)}</div>
-      <div class="inv-info">
-        <div class="inv-name">${escHtml(inv.name)}${isSent?'<span class="sent-pill">✓ Sent</span>':''}</div>
-        <div class="inv-phone">${inv.phone?escHtml(inv.phone):'<em style="color:var(--text-muted)">No number</em>'}</div>
-      </div>
-      <div class="inv-actions">
-        <button class="btn-wa${isSent?' sent':''}" onclick="sendOne(${inv.id})">📲 ${isSent?'Resend':'Send'}</button>
-        <button class="btn-rm" onclick="removeInvitee(${inv.id})" aria-label="Remove">✕</button>
-      </div>`;
-    container.appendChild(div);
-  });
-}
-function addInvitee(name,phone){
-  name=name.trim();phone=phone?phone.trim():'';
-  if(!name)return;
-  if(invitees.some(i=>i.name.toLowerCase()===name.toLowerCase()&&i.phone===phone))return;
-  invitees.push({id:nextId++,name,phone});
-  renderList();
-}
-function removeInvitee(id){invitees=invitees.filter(i=>i.id!==id);sentIds.delete(id);renderList();}
-function addManual(){
-  const name=document.getElementById('m_name').value.trim();
-  const phone=document.getElementById('m_phone').value.trim();
-  if(!name){alert('Please enter a name.');return;}
-  addInvitee(name,phone);
-  document.getElementById('m_name').value='';
-  document.getElementById('m_phone').value='';
-  document.getElementById('m_name').focus();
-}
-document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&(e.target.id==='m_name'||e.target.id==='m_phone'))addManual();
-});
 
-/* ═══════════════════════════════════
-   SENDER: WHATSAPP SEND
-═══════════════════════════════════ */
-function sendOne(id){
-  const inv=invitees.find(i=>i.id===id);
-  if(!inv)return;
-  if(!eventData){alert('Please complete Event Setup first.');switchTab('setup');return;}
-  const phone=cleanPhone(inv.phone);
-  if(!phone){alert(`No phone number for ${inv.name}. Please add it first.`);return;}
-  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(buildWAMessage(inv.name))}`,'_blank');
-  sentIds.add(id);renderList();
-}
-function sendAll(){
-  if(!eventData){alert('Please complete Event Setup first.');switchTab('setup');return;}
-  const pending=invitees.filter(i=>i.phone&&cleanPhone(i.phone));
-  const noPhone=invitees.filter(i=>!i.phone||!cleanPhone(i.phone));
-  if(pending.length===0){alert('No invitees with phone numbers.');return;}
-  if(noPhone.length>0&&!confirm(`${noPhone.length} guest(s) have no phone and will be skipped:\n${noPhone.map(i=>i.name).join(', ')}\n\nContinue?`))return;
-  pending.forEach((inv,idx)=>{
-    setTimeout(()=>{
-      window.open(`https://wa.me/${cleanPhone(inv.phone)}?text=${encodeURIComponent(buildWAMessage(inv.name))}`,'_blank');
-      sentIds.add(inv.id);
-      if(idx===pending.length-1)renderList();
-    },idx*700);
-  });
-}
-
-/* ═══════════════════════════════════
-   CONTACTS PICKER
-═══════════════════════════════════ */
-async function pickFromContacts(){
-  if(!('contacts' in navigator&&'ContactsManager' in window)){
-    alert('Contact Picker works on:\n✅ Chrome for Android\n✅ Safari iOS 14.5+\n\nPlease add guests manually.');return;
+  function updateBanner() {
+    const banner = document.getElementById("savedEventBanner");
+    const bannerText = document.getElementById("bannerText");
+    if(eventConfig && eventConfig.childName) {
+      banner.style.display = "block";
+      bannerText.innerHTML = `🎉 ${eventConfig.ceremony} of <strong>${eventConfig.childName}</strong> on ${formatDate(eventConfig.date)}`;
+    } else {
+      banner.style.display = "none";
+    }
   }
-  try{
-    const contacts=await navigator.contacts.select(['name','tel'],{multiple:true});
-    contacts.forEach(c=>{
-      const name=Array.isArray(c.name)&&c.name[0]?c.name[0]:'';
-      const phone=Array.isArray(c.tel)&&c.tel[0]?c.tel[0]:'';
-      if(name)addInvitee(name,phone);
+
+  function saveEventData() {
+    const childName = document.getElementById("childName").value.trim();
+    const date = document.getElementById("eventDate").value;
+    const venue = document.getElementById("venueName").value.trim();
+    
+    if(!childName) { alert("Please enter child's name"); return; }
+    if(!date) { alert("Please select date"); return; }
+    if(!venue) { alert("Please enter venue name"); return; }
+    
+    eventConfig = {
+      hostFamily: document.getElementById("hostFamily").value.trim() || "Parivaar",
+      ceremony: document.getElementById("ceremonySelect").value,
+      childName: childName,
+      childHindi: document.getElementById("childHindi").value.trim(),
+      date: date,
+      time: document.getElementById("eventTime").value,
+      venue: venue,
+      address: document.getElementById("venueAddress").value.trim(),
+      hosts: document.getElementById("hosts").value.trim()
+    };
+    
+    document.getElementById("previewBtn").style.display = "flex";
+    updateBanner();
+    saveAllData();
+    alert("✓ Ceremony details saved!");
+  }
+
+  function openPreview() {
+    if(!eventConfig) { alert("Please save ceremony details first"); return; }
+    saveAllData();
+    
+    const params = new URLSearchParams();
+    params.set("view", "inv");
+    params.set("g", "Guest");
+    params.set("h", eventConfig.hostFamily);
+    params.set("c", eventConfig.ceremony);
+    params.set("n", eventConfig.childName);
+    params.set("hn", eventConfig.childHindi);
+    params.set("d", eventConfig.date);
+    params.set("t", eventConfig.time);
+    params.set("v", eventConfig.venue);
+    params.set("a", eventConfig.address);
+    params.set("ho", eventConfig.hosts);
+    
+    const fullUrl = window.location.origin + window.location.pathname + "?" + params.toString();
+    window.open(fullUrl, '_blank');
+  }
+
+  function formatDate(dateStr) {
+    if(!dateStr) return "TBA";
+    let d = new Date(dateStr + "T00:00:00");
+    return d.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  }
+  
+  function formatTime(timeStr) {
+    if(!timeStr) return "Not specified";
+    let [h,m] = timeStr.split(":");
+    let hour = parseInt(h);
+    let ampm = hour >= 12 ? "PM" : "AM";
+    let hr12 = hour % 12 || 12;
+    return `${hr12}:${m} ${ampm}`;
+  }
+
+  function renderInvitationFromParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.get("view") !== "inv") return false;
+    
+    const guestName = urlParams.get("g") || "Devotee";
+    const hostFamily = urlParams.get("h") || "Parivaar";
+    const ceremony = urlParams.get("c") || "Sacred Ceremony";
+    const childName = urlParams.get("n") || "Baby";
+    const childHindi = urlParams.get("hn") || "";
+    const date = urlParams.get("d");
+    const time = urlParams.get("t");
+    const venue = urlParams.get("v") || "Venue";
+    const address = urlParams.get("a") || "";
+    const hosts = urlParams.get("ho") || "";
+    
+    document.getElementById("invHeading").innerHTML = `${hostFamily} आपको आमंत्रित करते हैं`;
+    document.getElementById("hostNameLarge").innerHTML = hostFamily;
+    document.getElementById("invChildName").innerHTML = `${childName} ${childHindi ? '('+childHindi+')' : ''}`;
+    document.getElementById("hostHighlight").innerHTML = hostFamily;
+    document.getElementById("invCeremony").innerHTML = ceremony;
+    document.getElementById("invDate").innerHTML = formatDate(date);
+    document.getElementById("invTime").innerHTML = formatTime(time);
+    document.getElementById("invVenue").innerHTML = venue;
+    document.getElementById("invAddress").innerHTML = address || "Address details will be shared";
+    document.getElementById("invHosts").innerHTML = hosts || hostFamily;
+    document.getElementById("guestNameDisplay").innerHTML = `🙏 For ${guestName}`;
+    
+    return true;
+  }
+
+  function buildFullInviteUrl(guestName) {
+    if(!eventConfig) return "#";
+    const params = new URLSearchParams();
+    params.set("view", "inv");
+    params.set("g", guestName);
+    params.set("h", eventConfig.hostFamily);
+    params.set("c", eventConfig.ceremony);
+    params.set("n", eventConfig.childName);
+    params.set("hn", eventConfig.childHindi);
+    params.set("d", eventConfig.date);
+    params.set("t", eventConfig.time);
+    params.set("v", eventConfig.venue);
+    params.set("a", eventConfig.address);
+    params.set("ho", eventConfig.hosts);
+    return window.location.origin + window.location.pathname + "?" + params.toString();
+  }
+  
+  function buildWhatsAppMsg(guestName) {
+    if(!eventConfig) return "";
+    const url = buildFullInviteUrl(guestName);
+    return `🕉️ Namaste ${guestName} 🙏\n\nWe joyfully invite you to the *${eventConfig.ceremony}* of our beloved child\n✨ *${eventConfig.childName}* ${eventConfig.childHindi || ''}\n\n📅 ${formatDate(eventConfig.date)}\n${eventConfig.time ? `🕘 ${formatTime(eventConfig.time)}\n` : ''}📍 ${eventConfig.venue}${eventConfig.address ? ', '+eventConfig.address : ''}\n👪 Hosted by: ${eventConfig.hosts || eventConfig.hostFamily}\n\n🌸 View your personalised invitation:\n${url}\n\nYour presence will make this day divine. 🙏`;
+  }
+
+  function showSlide(n) {
+    const s1 = document.getElementById("slide1");
+    const s2 = document.getElementById("slide2");
+    const s3 = document.getElementById("slide3");
+    const dots = document.querySelectorAll(".dot");
+    s1.classList.remove("gone", "here");
+    s2.classList.remove("gone", "here");
+    s3.classList.remove("gone", "here");
+    if(n === 1) s1.classList.add("here");
+    else if(n === 2) s2.classList.add("here");
+    else if(n === 3) s3.classList.add("here");
+    dots.forEach((d, i) => { if(i+1 === n) d.classList.add("active"); else d.classList.remove("active"); });
+    currentSlide = n;
+  }
+  
+  function nextSlide() { if(currentSlide < 3) showSlide(currentSlide + 1); }
+  function prevSlide() { if(currentSlide > 1) showSlide(currentSlide - 1); }
+  function goToSlide(n) { showSlide(n); }
+  
+  function closeInvitation() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.get("view") === "inv") {
+      document.getElementById("invView").classList.remove("active");
+      document.body.innerHTML = '<div style="text-align: center; padding: 3rem; color: #d4af37; font-family: serif;"><div style="font-size: 3rem;">🙏</div><h2>Thank you for viewing the invitation</h2><p>May blessings be upon you and your family.</p></div>';
+    } else {
+      document.getElementById("invView").classList.remove("active");
+      document.getElementById("senderView").style.display = "block";
+    }
+  }
+
+  function renderInviteeList() {
+    const container = document.getElementById("inviteeListContainer");
+    if(!container) return;
+    if(guests.length === 0) {
+      container.innerHTML = `<div class="notice">No invitees yet. Add guests above or pick from contacts.</div>`;
+      document.getElementById("sendBar").style.display = "none";
+      return;
+    }
+    container.innerHTML = "";
+    guests.forEach(g => {
+      const sent = sentIds.has(g.id);
+      const div = document.createElement("div");
+      div.className = "inv-row";
+      div.innerHTML = `
+        <div><strong>${escapeHtml(g.name)}</strong> ${sent ? '✓' : ''}<br><small>${g.phone || ''}</small></div>
+        <button class="btn-wa" onclick="sendInvite(${g.id})">${sent ? 'Resend' : 'Send'}</button>
+        <button style="background:none; border:1px solid #b68b2c; border-radius:30px; padding:6px 12px;" onclick="removeGuest(${g.id})">✕</button>
+      `;
+      container.appendChild(div);
     });
-  }catch(e){if(e.name!=='AbortError')alert('Could not access contacts: '+e.message);}
-}
-
-/* ═══════════════════════════════════
-   INIT
-═══════════════════════════════════ */
-(function init(){
-  const p=getParams();
-  if(p.view==='1'){
-    initInvView(p);
-  } else {
-    spawnPetals('senderPetals');
-    renderList();
+    document.getElementById("totalCount").innerText = guests.length;
+    document.getElementById("sendBar").style.display = guests.length ? "flex" : "none";
+    saveAllData();
   }
-})();
+  
+  function addGuest() {
+    let name = document.getElementById("manualName").value.trim();
+    let phone = document.getElementById("manualPhone").value.trim();
+    if(!name) { alert("Enter guest name"); return; }
+    if(!phone) { alert("Enter phone number with country code (e.g., +91 98765 43210)"); return; }
+    guests.push({ id: nextId++, name, phone });
+    document.getElementById("manualName").value = "";
+    document.getElementById("manualPhone").value = "";
+    renderInviteeList();
+  }
+  
+  function removeGuest(id) {
+    guests = guests.filter(g => g.id !== id);
+    sentIds.delete(id);
+    renderInviteeList();
+  }
+  
+  function sendInvite(id) {
+    if(!eventConfig) { alert("Please save ceremony details in Tab 1 first"); switchTab('setup'); return; }
+    const guest = guests.find(g => g.id === id);
+    if(!guest || !guest.phone) { alert("Phone number missing"); return; }
+    let cleanPhone = guest.phone.replace(/[\s\-\(\)]/g, '');
+    window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(buildWhatsAppMsg(guest.name))}`, '_blank');
+    sentIds.add(id);
+    renderInviteeList();
+  }
+  
+  function sendAllInvites() {
+    if(!eventConfig) { alert("Please save ceremony details in Tab 1 first"); switchTab('setup'); return; }
+    let pending = guests.filter(g => g.phone);
+    if(pending.length === 0) { alert("No guests with phone numbers"); return; }
+    if(!confirm(`Send invitations to ${pending.length} guest(s)?`)) return;
+    pending.forEach((g, idx) => {
+      setTimeout(() => {
+        let cleanPhone = g.phone.replace(/[\s\-\(\)]/g, '');
+        window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(buildWhatsAppMsg(g.name))}`, '_blank');
+        sentIds.add(g.id);
+        if(idx === pending.length-1) renderInviteeList();
+      }, idx * 600);
+    });
+  }
+  
+  async function pickContacts() {
+    if(!('contacts' in navigator && 'ContactsManager' in window)) {
+      alert("Contact picker works on Chrome Android / Safari iOS 14.5+. Please add manually.");
+      return;
+    }
+    try {
+      const contacts = await navigator.contacts.select(['name', 'tel'], { multiple: true });
+      for(let c of contacts) {
+        let name = c.name && c.name[0] ? c.name[0] : "";
+        let phone = c.tel && c.tel[0] ? c.tel[0] : "";
+        if(name && phone) guests.push({ id: nextId++, name, phone });
+      }
+      renderInviteeList();
+    } catch(e) { if(e.name !== 'AbortError') alert("Could not access contacts"); }
+  }
+  
+  function switchTab(tab) {
+    const setup = document.getElementById("setupSection");
+    const send = document.getElementById("sendSection");
+    const btns = document.querySelectorAll(".tab-btn");
+    if(tab === 'setup') {
+      setup.style.display = "block";
+      send.style.display = "none";
+      btns[0].classList.add("active"); btns[1].classList.remove("active");
+    } else {
+      setup.style.display = "none";
+      send.style.display = "block";
+      btns[0].classList.remove("active"); btns[1].classList.add("active");
+      renderInviteeList();
+      updateBanner();
+    }
+  }
+  
+  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
+  
+  function spawnPetals() {
+    const container = document.getElementById("petalContainer");
+    if(!container) return;
+    const petals = ['🌸', '🌺', '🌼', '🪷', '✿'];
+    for(let i=0; i<25; i++) {
+      const p = document.createElement("div");
+      p.className = "petal";
+      p.textContent = petals[Math.floor(Math.random() * petals.length)];
+      p.style.left = Math.random() * 100 + "%";
+      p.style.fontSize = (0.6 + Math.random() * 0.7) + "rem";
+      p.style.animationDuration = (8 + Math.random() * 12) + "s";
+      p.style.animationDelay = (Math.random() * 15) + "s";
+      container.appendChild(p);
+    }
+  }
+  
+  function init() {
+    spawnPetals();
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    document.getElementById("eventDate").value = `${yyyy}-${mm}-${dd}`;
+    
+    if(window.location.search.includes("view=inv")) {
+      document.getElementById("senderView").style.display = "none";
+      document.getElementById("invView").classList.add("active");
+      renderInvitationFromParams();
+      showSlide(1);
+    } else {
+      loadSavedData();
+      document.getElementById("senderView").style.display = "block";
+    }
+  }
+  init();
 </script>
 </body>
 </html>
